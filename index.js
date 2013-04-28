@@ -154,14 +154,19 @@ $(document).ready(function() {
             var halfPathLength = path.getTotalLength() / 2;
             var middlePathPoint = path.getPointAtLength(halfPathLength);
 
-            // Using use Pythagoras' theorem explained at http://en.wikipedia.org/wiki/Pythagorean_theorem
+            // Compute distances between points using use Pythagoras' theorem explained at
+            // http://en.wikipedia.org/wiki/Pythagorean_theorem
             var startToHalfDistance = Math.sqrt(Math.pow(Math.abs(move.x-middlePathPoint.x), 2) + Math.pow(Math.abs(move.y-middlePathPoint.y), 2));
             var startToEndVector = {x:arc.x-move.x, y:arc.y-move.y};
-            var startToEndPolarVector = cartesianToPolar(startToEndVector);
             var startToEndDistance = Math.sqrt(Math.pow(Math.abs(startToEndVector.x), 2) + Math.pow(Math.abs(startToEndVector.y), 2));
+
+            // Compute angle based on all the sides using the Law of Sines explained at
+            // http://math.stackexchange.com/questions/106539/solving-triangles-finding-missing-sides-angles-given-3-sides-angles
             var alphaRadian = Math.acos((Math.pow(startToHalfDistance, 2) + Math.pow(startToHalfDistance, 2) - Math.pow(startToEndDistance, 2)) / 2*startToHalfDistance*startToHalfDistance);
+
             var arcAngleRadian = Math.PI - alphaRadian;
             var arcAngleDegrees = (180/Math.PI) * arcAngleRadian;
+            var startToEndPolarVector = cartesianToPolar(startToEndVector);
             var halfToCenterPolarVector = {r:arc.r1, t:startToEndPolarVector.t + Math.PI/2};
             var halfToCenterCartesianVector = polarToCartesian(halfToCenterPolarVector);
             var centerPoint = {x:middlePathPoint.x+halfToCenterCartesianVector.x, y:middlePathPoint.y+halfToCenterCartesianVector.y};
