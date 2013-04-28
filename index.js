@@ -164,7 +164,7 @@ $(document).ready(function() {
             // http://math.stackexchange.com/questions/106539/solving-triangles-finding-missing-sides-angles-given-3-sides-angles
             var alphaRadian = Math.acos((Math.pow(startToHalfDistance, 2) + Math.pow(startToHalfDistance, 2) - Math.pow(startToEndDistance, 2)) / 2*startToHalfDistance*startToHalfDistance);
 
-            var arcAngleRadian = Math.PI - alphaRadian;
+            var arcAngleRadian = 2*(Math.PI - alphaRadian);
             var arcAngleDegrees = (180/Math.PI) * arcAngleRadian;
             var startToEndPolarVector = cartesianToPolar(startToEndVector);
             var halfToCenterPolarVector = {r:arc.r1, t:startToEndPolarVector.t + Math.PI/2};
@@ -172,7 +172,7 @@ $(document).ready(function() {
             var centerPoint = {x:middlePathPoint.x+halfToCenterCartesianVector.x, y:middlePathPoint.y+halfToCenterCartesianVector.y};
 
             objects += _('  (gr_arc (start %f %f) (end %f %f) (angle %f) (layer Edge.Cuts) (width 0.1))\n').
-                       sprintf(centerPoint.x, -centerPoint.y, move.x, -move.y, -arcAngleDegrees*2);
+                       sprintf(centerPoint.x, -centerPoint.y, move.x, -move.y, -arcAngleDegrees);
         });
 
         var kicad_pcb = _(kicad_pcb_template).sprintf(filename, objects);
