@@ -43,14 +43,6 @@ function svgToKicadPcb(svgString, baseFilename)
 
 function getArcFromPath(path)
 {
-    function cartesianToPolar(cartesian) {
-        return {r:Math.sqrt(Math.pow(cartesian.x, 2) + Math.pow(cartesian.y, 2)), t:Math.atan2(cartesian.y, cartesian.x)};
-    }
-
-    function polarToCartesian(polar) {
-        return {x:polar.r*Math.cos(polar.t), y:polar.r*Math.sin(polar.t)};
-    }
-
     var segments = path.pathSegList;
 
     if (!(segments.numberOfItems == 2 &&
@@ -86,6 +78,14 @@ function getArcFromPath(path)
 
     return _('  (gr_arc (start %f %f) (end %f %f) (angle %f) (layer Edge.Cuts) (width 0.1))\n').
              sprintf(centerPoint.x, -centerPoint.y, move.x, -move.y, -arcAngleDegrees);
+}
+
+function cartesianToPolar(cartesian) {
+    return {r:Math.sqrt(Math.pow(cartesian.x, 2) + Math.pow(cartesian.y, 2)), t:Math.atan2(cartesian.y, cartesian.x)};
+}
+
+function polarToCartesian(polar) {
+    return {x:polar.r*Math.cos(polar.t), y:polar.r*Math.sin(polar.t)};
 }
 
 kicad_pcb_template = '(kicad_pcb (version 3) (host pcbnew "%s")\n\
