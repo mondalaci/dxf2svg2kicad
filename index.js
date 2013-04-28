@@ -1,23 +1,18 @@
 $(document).ready(function() {
-    fileReader = new FileReader();
-    fileReader2 = new FileReader();
-
-    fileReader.onload = function(event) {
-        $('#svgImage')[0].src = event.target.result;
-    };
-
-    fileReader2.onload = function(event) {
-        var svgString = event.target.result;
-        var kicadPcb = svgToKicadPcb(svgString);
-        var blob = new Blob([kicadPcb], {type: "text/plain; charset=utf-8"});
-        saveAs(blob, filename+'.kicad_pcb');
-    };
-
     $('#svgUploadButton').change(function(event) {
         var file = $('#svgUploadButton')[0].files[0];
         filename = file.name;
-        fileReader.readAsDataURL(file);
-        fileReader2.readAsText(file);
+
+        $(new FileReader()).load(function(event) {
+            $('#svgImage')[0].src = event.target.result;
+        })[0].readAsDataURL(file);
+
+        $(new FileReader()).load(function(event) {
+            var svgString = event.target.result;
+            var kicadPcb = svgToKicadPcb(svgString);
+            var blob = new Blob([kicadPcb], {type: "text/plain; charset=utf-8"});
+            saveAs(blob, filename+'.kicad_pcb');
+        })[0].readAsText(file);
     });
 });
 
