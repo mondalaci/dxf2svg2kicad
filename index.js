@@ -1,22 +1,22 @@
 $(document).ready(function() {
     $('#svgUploadButton').change(function(event) {
         var file = $('#svgUploadButton')[0].files[0];
-        baseFilename = file.name.replace(/\.[^/.]+$/, "");
+        var baseFilename = file.name.replace(/\.[^/.]+$/, '');
 
         $(new FileReader()).load(function(event) {
             $('#svgImage')[0].src = event.target.result;
         })[0].readAsDataURL(file);
 
-        $(new FileReader()).load(function(event) {
+        $(new FileReader()).load({baseFilename:baseFilename}, function(event) {
             var svgString = event.target.result;
-            var kicadPcb = svgToKicadPcb(svgString);
-            var blob = new Blob([kicadPcb], {type: "text/plain; charset=utf-8"});
+            var kicadPcb = svgToKicadPcb(svgString, event.data.baseFilename);
+            var blob = new Blob([kicadPcb], {type: 'text/plain; charset=utf-8'});
             saveAs(blob, baseFilename+'.kicad_pcb');
         })[0].readAsText(file);
     });
 });
 
-function svgToKicadPcb(svgString)
+function svgToKicadPcb(svgString, baseFilename)
 {
     var svgDoc = $.parseXML(svgString);
     var svgDom = $(svgDoc);
