@@ -1,7 +1,7 @@
 $(document).ready(function() {
     $('#svgUploadButton').change(function(event) {
         var file = $('#svgUploadButton')[0].files[0];
-        filename = file.name;
+        baseFilename = file.name.replace(/\.[^/.]+$/, "");
 
         $(new FileReader()).load(function(event) {
             $('#svgImage')[0].src = event.target.result;
@@ -11,7 +11,7 @@ $(document).ready(function() {
             var svgString = event.target.result;
             var kicadPcb = svgToKicadPcb(svgString);
             var blob = new Blob([kicadPcb], {type: "text/plain; charset=utf-8"});
-            saveAs(blob, filename+'.kicad_pcb');
+            saveAs(blob, baseFilename+'.kicad_pcb');
         })[0].readAsText(file);
     });
 });
@@ -38,7 +38,7 @@ function svgToKicadPcb(svgString)
         objects += getArcFromPath(path);
     });
 
-    return _(kicad_pcb_template).sprintf(filename, objects);
+    return _(kicad_pcb_template).sprintf(baseFilename, objects);
 }
 
 function getArcFromPath(path)
