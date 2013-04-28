@@ -164,8 +164,7 @@ $(document).ready(function() {
             var alphaRadian = Math.acos((Math.pow(startToHalfDistance, 2) + Math.pow(startToHalfDistance, 2) - Math.pow(startToEndDistance, 2)) / 2*startToHalfDistance*startToHalfDistance);
             var arcAngleRadian = Math.PI - alphaRadian;
             var arcAngleDegrees = (180/Math.PI) * arcAngleRadian;
-            var arcRadius = (startToHalfDistance * Math.sin(Math.PI/2) / Math.sin(arcAngleRadian/2) )/2;
-            var halfToCenterPolarVector = {r:arcRadius, t:startToEndPolarVector.t + Math.PI/2};
+            var halfToCenterPolarVector = {r:arc.r1, t:startToEndPolarVector.t + Math.PI/2};
             var halfToCenterCartesianVector = polarToCartesian(halfToCenterPolarVector);
             var centerPoint = {x:middlePathPoint.x+halfToCenterCartesianVector.x, y:middlePathPoint.y+halfToCenterCartesianVector.y};
 
