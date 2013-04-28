@@ -159,8 +159,6 @@ $(document).ready(function() {
             var startToEndVector = {x:arc.x-move.x, y:arc.y-move.y};
             var startToEndPolarVector = cartesianToPolar(startToEndVector);
             var startToEndDistance = Math.sqrt(Math.pow(Math.abs(startToEndVector.x), 2) + Math.pow(Math.abs(startToEndVector.y), 2));
-            // Using the Law of Sines explained at
-            // http://math.stackexchange.com/questions/106539/solving-triangles-finding-missing-sides-angles-given-3-sides-angles
             var alphaRadian = Math.acos((Math.pow(startToHalfDistance, 2) + Math.pow(startToHalfDistance, 2) - Math.pow(startToEndDistance, 2)) / 2*startToHalfDistance*startToHalfDistance);
             var arcAngleRadian = Math.PI - alphaRadian;
             var arcAngleDegrees = (180/Math.PI) * arcAngleRadian;
