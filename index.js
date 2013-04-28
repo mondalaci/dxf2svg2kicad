@@ -22,6 +22,8 @@ function svgToKicadPcb(svgString, baseFilename)
     var svgDom = $(svgDoc);
     var objects = '';
 
+    // Negate y coordinates because SVG increases upwards while KiCad increases downwards.
+
     svgDom.find('line').each(function(index, line) {
         objects += _('  (gr_line (start %f %f) (end %f %f) (angle 90) (layer Edge.Cuts) (width 0.1))\n').
                    sprintf(line.x1.baseVal.value, -line.y1.baseVal.value,
