@@ -8,28 +8,8 @@ $(document).ready(function() {
 
     fileReader2.onload = function(event) {
         var svgString = event.target.result;
-        var svgDoc = $.parseXML(svgString);
-        var svgDom = $(svgDoc);
-        var objects = '';
-
-        svgDom.find('line').each(function(index, line) {
-            objects += _('  (gr_line (start %f %f) (end %f %f) (angle 90) (layer Edge.Cuts) (width 0.1))\n').
-                       sprintf(line.x1.baseVal.value, -line.y1.baseVal.value,
-                               line.x2.baseVal.value, -line.y2.baseVal.value);
-        });
-
-        svgDom.find('circle').each(function(index, circle) {
-            objects += _('  (gr_circle (center %f %f) (end %f %f) (layer Edge.Cuts) (width 0.1))\n').
-                       sprintf(circle.cx.baseVal.value, -circle.cy.baseVal.value,
-                               circle.cx.baseVal.value, -circle.cy.baseVal.value+circle.r.baseVal.value);
-        });
-
-        svgDom.find('path').each(function(index, path) {
-            objects += getArcFromPath(path);
-        });
-
-        var kicad_pcb = _(kicad_pcb_template).sprintf(filename, objects);
-        var blob = new Blob([kicad_pcb], {type: "text/plain; charset=utf-8"});
+        var kicadPcb = svgToKicadPcb(svgString);
+        var blob = new Blob([kicadPcb], {type: "text/plain; charset=utf-8"});
         saveAs(blob, filename+'.kicad_pcb');
     };
 
@@ -40,6 +20,31 @@ $(document).ready(function() {
         fileReader2.readAsText(file);
     });
 });
+
+function svgToKicadPcb(svgString)
+{
+    var svgDoc = $.parseXML(svgString);
+    var svgDom = $(svgDoc);
+    var objects = '';
+
+    svgDom.find('line').each(function(index, line) {
+        objects += _('  (gr_line (start %f %f) (end %f %f) (angle 90) (layer Edge.Cuts) (width 0.1))\n').
+                   sprintf(line.x1.baseVal.value, -line.y1.baseVal.value,
+                           line.x2.baseVal.value, -line.y2.baseVal.value);
+    });
+
+    svgDom.find('circle').each(function(index, circle) {
+        objects += _('  (gr_circle (center %f %f) (end %f %f) (layer Edge.Cuts) (width 0.1))\n').
+                   sprintf(circle.cx.baseVal.value, -circle.cy.baseVal.value,
+                           circle.cx.baseVal.value, -circle.cy.baseVal.value+circle.r.baseVal.value);
+    });
+
+    svgDom.find('path').each(function(index, path) {
+        objects += getArcFromPath(path);
+    });
+
+    return _(kicad_pcb_template).sprintf(filename, objects);
+}
 
 function getArcFromPath(path)
 {
