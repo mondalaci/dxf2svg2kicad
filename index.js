@@ -1,3 +1,93 @@
+$(document).ready(function() {
+    fileReader = new FileReader();
+    fileReader2 = new FileReader();
+
+    fileReader.onload = function(event) {
+        $('#svgImage')[0].src = event.target.result;
+    };
+
+    fileReader2.onload = function(event) {
+        var svgString = event.target.result;
+        var svgDoc = $.parseXML(svgString);
+        var svgDom = $(svgDoc);
+        var objects = '';
+
+        svgDom.find('line').each(function(index, line) {
+            objects += _('  (gr_line (start %f %f) (end %f %f) (angle 90) (layer Edge.Cuts) (width 0.1))\n').
+                       sprintf(line.x1.baseVal.value, -line.y1.baseVal.value,
+                               line.x2.baseVal.value, -line.y2.baseVal.value);
+        });
+
+        svgDom.find('circle').each(function(index, circle) {
+            objects += _('  (gr_circle (center %f %f) (end %f %f) (layer Edge.Cuts) (width 0.1))\n').
+                       sprintf(circle.cx.baseVal.value, -circle.cy.baseVal.value,
+                               circle.cx.baseVal.value, -circle.cy.baseVal.value+circle.r.baseVal.value);
+        });
+
+        svgDom.find('path').each(function(index, path) {
+            objects += getArcFromPath(path);
+        });
+
+        var kicad_pcb = _(kicad_pcb_template).sprintf(filename, objects);
+        var blob = new Blob([kicad_pcb], {type: "text/plain; charset=utf-8"});
+        saveAs(blob, filename+'.kicad_pcb');
+    };
+
+    $('#svgUploadButton').change(function(event) {
+        var file = $('#svgUploadButton')[0].files[0];
+        filename = file.name;
+        fileReader.readAsDataURL(file);
+        fileReader2.readAsText(file);
+    });
+});
+
+function getArcFromPath(path)
+{
+    function cartesianToPolar(cartesian) {
+        return {r:Math.sqrt(Math.pow(cartesian.x, 2) + Math.pow(cartesian.y, 2)), t:Math.atan2(cartesian.y, cartesian.x)};
+    }
+
+    function polarToCartesian(polar) {
+        return {x:polar.r*Math.cos(polar.t), y:polar.r*Math.sin(polar.t)};
+    }
+
+    var segments = path.pathSegList;
+
+    if (!(segments.numberOfItems == 2 &&
+          segments.getItem(0).pathSegType == SVGPathSeg.PATHSEG_MOVETO_ABS &&
+          segments.getItem(1).pathSegType == SVGPathSeg.PATHSEG_ARC_ABS &&
+          segments.getItem(1).r1 == segments.getItem(1).r2))
+    {
+        return '';  // Path type is not supported by KiCad.
+    }
+
+    move = segments.getItem(0);
+    arc = segments.getItem(1);
+
+    var halfPathLength = path.getTotalLength() / 2;
+    var middlePathPoint = path.getPointAtLength(halfPathLength);
+
+    // Compute distances between points using use Pythagoras' theorem explained at
+    // http://en.wikipedia.org/wiki/Pythagorean_theorem
+    var startToHalfDistance = Math.sqrt(Math.pow(Math.abs(move.x-middlePathPoint.x), 2) + Math.pow(Math.abs(move.y-middlePathPoint.y), 2));
+    var startToEndVector = {x:arc.x-move.x, y:arc.y-move.y};
+    var startToEndDistance = Math.sqrt(Math.pow(Math.abs(startToEndVector.x), 2) + Math.pow(Math.abs(startToEndVector.y), 2));
+
+    // Compute angle based on all the sides using the Law of Sines explained at
+    // http://math.stackexchange.com/questions/106539/solving-triangles-finding-missing-sides-angles-given-3-sides-angles
+    var alphaRadian = Math.acos((Math.pow(startToHalfDistance, 2) + Math.pow(startToHalfDistance, 2) - Math.pow(startToEndDistance, 2)) / 2*startToHalfDistance*startToHalfDistance);
+
+    var arcAngleRadian = 2*(Math.PI - alphaRadian);
+    var arcAngleDegrees = (180/Math.PI) * arcAngleRadian;
+    var startToEndPolarVector = cartesianToPolar(startToEndVector);
+    var halfToCenterPolarVector = {r:arc.r1, t:startToEndPolarVector.t + Math.PI/2};
+    var halfToCenterCartesianVector = polarToCartesian(halfToCenterPolarVector);
+    var centerPoint = {x:middlePathPoint.x+halfToCenterCartesianVector.x, y:middlePathPoint.y+halfToCenterCartesianVector.y};
+
+    return _('  (gr_arc (start %f %f) (end %f %f) (angle %f) (layer Edge.Cuts) (width 0.1))\n').
+             sprintf(centerPoint.x, -centerPoint.y, move.x, -move.y, -arcAngleDegrees);
+}
+
 kicad_pcb_template = '(kicad_pcb (version 3) (host pcbnew "%s")\n\
 \n\
   (general\n\
@@ -101,94 +191,3 @@ kicad_pcb_template = '(kicad_pcb (version 3) (host pcbnew "%s")\n\
 %s\n\
 )\n\
 ';
-
-
-$(document).ready(function() {
-    fileReader = new FileReader();
-    fileReader2 = new FileReader();
-
-    fileReader.onload = function(event) {
-        $('#svgImage')[0].src = event.target.result;
-    };
-
-    fileReader2.onload = function(event) {
-        var svgString = event.target.result;
-        var svgDoc = $.parseXML(svgString);
-        var svgDom = $(svgDoc);
-        var objects = '';
-
-        svgDom.find('line').each(function(index, line) {
-            objects += _('  (gr_line (start %f %f) (end %f %f) (angle 90) (layer Edge.Cuts) (width 0.1))\n').
-                       sprintf(line.x1.baseVal.value, -line.y1.baseVal.value,
-                               line.x2.baseVal.value, -line.y2.baseVal.value);
-        });
-
-        svgDom.find('circle').each(function(index, circle) {
-            objects += _('  (gr_circle (center %f %f) (end %f %f) (layer Edge.Cuts) (width 0.1))\n').
-                       sprintf(circle.cx.baseVal.value, -circle.cy.baseVal.value,
-                               circle.cx.baseVal.value, -circle.cy.baseVal.value+circle.r.baseVal.value);
-        });
-
-        svgDom.find('path').each(function(index, path) {
-            objects += getArcFromPath(path);
-        });
-
-        var kicad_pcb = _(kicad_pcb_template).sprintf(filename, objects);
-        var blob = new Blob([kicad_pcb], {type: "text/plain; charset=utf-8"});
-        saveAs(blob, filename+'.kicad_pcb');
-    };
-
-    $('#svgUploadButton').change(function(event) {
-        var file = $('#svgUploadButton')[0].files[0];
-        filename = file.name;
-        fileReader.readAsDataURL(file);
-        fileReader2.readAsText(file);
-    });
-});
-
-function getArcFromPath(path)
-{
-    function cartesianToPolar(cartesian) {
-        return {r:Math.sqrt(Math.pow(cartesian.x, 2) + Math.pow(cartesian.y, 2)), t:Math.atan2(cartesian.y, cartesian.x)};
-    }
-
-    function polarToCartesian(polar) {
-        return {x:polar.r*Math.cos(polar.t), y:polar.r*Math.sin(polar.t)};
-    }
-
-    var segments = path.pathSegList;
-
-    if (!(segments.numberOfItems == 2 &&
-          segments.getItem(0).pathSegType == SVGPathSeg.PATHSEG_MOVETO_ABS &&
-          segments.getItem(1).pathSegType == SVGPathSeg.PATHSEG_ARC_ABS &&
-          segments.getItem(1).r1 == segments.getItem(1).r2))
-    {
-        return '';  // Path type is not supported by KiCad.
-    }
-
-    move = segments.getItem(0);
-    arc = segments.getItem(1);
-
-    var halfPathLength = path.getTotalLength() / 2;
-    var middlePathPoint = path.getPointAtLength(halfPathLength);
-
-    // Compute distances between points using use Pythagoras' theorem explained at
-    // http://en.wikipedia.org/wiki/Pythagorean_theorem
-    var startToHalfDistance = Math.sqrt(Math.pow(Math.abs(move.x-middlePathPoint.x), 2) + Math.pow(Math.abs(move.y-middlePathPoint.y), 2));
-    var startToEndVector = {x:arc.x-move.x, y:arc.y-move.y};
-    var startToEndDistance = Math.sqrt(Math.pow(Math.abs(startToEndVector.x), 2) + Math.pow(Math.abs(startToEndVector.y), 2));
-
-    // Compute angle based on all the sides using the Law of Sines explained at
-    // http://math.stackexchange.com/questions/106539/solving-triangles-finding-missing-sides-angles-given-3-sides-angles
-    var alphaRadian = Math.acos((Math.pow(startToHalfDistance, 2) + Math.pow(startToHalfDistance, 2) - Math.pow(startToEndDistance, 2)) / 2*startToHalfDistance*startToHalfDistance);
-
-    var arcAngleRadian = 2*(Math.PI - alphaRadian);
-    var arcAngleDegrees = (180/Math.PI) * arcAngleRadian;
-    var startToEndPolarVector = cartesianToPolar(startToEndVector);
-    var halfToCenterPolarVector = {r:arc.r1, t:startToEndPolarVector.t + Math.PI/2};
-    var halfToCenterCartesianVector = polarToCartesian(halfToCenterPolarVector);
-    var centerPoint = {x:middlePathPoint.x+halfToCenterCartesianVector.x, y:middlePathPoint.y+halfToCenterCartesianVector.y};
-
-    return _('  (gr_arc (start %f %f) (end %f %f) (angle %f) (layer Edge.Cuts) (width 0.1))\n').
-             sprintf(centerPoint.x, -centerPoint.y, move.x, -move.y, -arcAngleDegrees);
-}
