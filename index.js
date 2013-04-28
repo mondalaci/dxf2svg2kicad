@@ -53,8 +53,8 @@ function getArcFromPath(path)
         return '';  // Path type is not supported by KiCad.
     }
 
-    move = segments.getItem(0);
-    arc = segments.getItem(1);
+    var move = segments.getItem(0);
+    var arc = segments.getItem(1);
 
     var halfPathLength = path.getTotalLength() / 2;
     var middlePathPoint = path.getPointAtLength(halfPathLength);
