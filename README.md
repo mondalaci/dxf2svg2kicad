@@ -11,3 +11,5 @@ DXF to SVG:
 * http://lx-viewer.sourceforge.net/
 
 testing push to gh-pages...
+
+QCAD "preserve geometry" advanced export option exports individual line segments as separate lines.
