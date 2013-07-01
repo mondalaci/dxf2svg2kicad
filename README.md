@@ -1,7 +1,7 @@
 svg-to-kicad-converter
 ======================
 
-Purely client-side webapp to convert SVG files to KiCad board files
+[SVG to KiCad board converter](http://mondalaci.github.io/svg-to-kicad-converter/) webapp that works purely on the client side.
 
 DXF to SVG:
 * QCAD
