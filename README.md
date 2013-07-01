@@ -3,15 +3,9 @@ svg-to-kicad-converter
 
 [DXF to SVG to KiCad PCB converter](http://mondalaci.github.io/dxf-to-svg-to-kicad-converter/) webapp that works purely on the client side.
 
-DXF to SVG:
-* QCAD
-* librecad
-* draftsight
-* freecad
-* http://lx-viewer.sourceforge.net/
+QCAD, librecad, draftsight, freecad
 
 QCAD "preserve geometry" advanced export option exports individual line segments as separate lines.
-
 
 References
 ----------
