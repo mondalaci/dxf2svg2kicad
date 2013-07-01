@@ -1,6 +1,6 @@
 $(document).ready(function() {
-    $('#svgUploadButton').change(function(event) {
-        var file = $('#svgUploadButton')[0].files[0];
+    $('#uploadButton').change(function(event) {
+        var file = $('#uploadButton')[0].files[0];
         var baseFilename = file.name.replace(/\.[^/.]+$/, '');
 
         $(new FileReader()).load(function(event) {
