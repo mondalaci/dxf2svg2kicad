@@ -1,6 +1,6 @@
 function svgToKicadPcb(svgString, baseFilename)
 {
-    var kicad_pcb_template = '(kicad_pcb (version 3) (host pcbnew "%s")\n\
+    var kicadPcbTemplate = '(kicad_pcb (version 3) (host pcbnew "%s")\n\
     \n\
       (general\n\
         (links 0)\n\
@@ -107,7 +107,10 @@ function svgToKicadPcb(svgString, baseFilename)
     function getArcFromPath(path)
     {
         function cartesianToPolar(cartesian) {
-            return {r:Math.sqrt(Math.pow(cartesian.x, 2) + Math.pow(cartesian.y, 2)), t:Math.atan2(cartesian.y, cartesian.x)};
+            return {
+                r: Math.sqrt(Math.pow(cartesian.x, 2) + Math.pow(cartesian.y, 2)),
+                t: Math.atan2(cartesian.y, cartesian.x)
+            };
         }
 
         function polarToCartesian(polar) {
@@ -132,20 +135,26 @@ function svgToKicadPcb(svgString, baseFilename)
 
         // Compute distances between points using use Pythagoras' theorem explained at
         // http://en.wikipedia.org/wiki/Pythagorean_theorem
-        var startToHalfDistance = Math.sqrt(Math.pow(Math.abs(move.x-middlePathPoint.x), 2) + Math.pow(Math.abs(move.y-middlePathPoint.y), 2));
+        var startToHalfDistance = Math.sqrt(Math.pow(Math.abs(move.x-middlePathPoint.x), 2) +
+                                            Math.pow(Math.abs(move.y-middlePathPoint.y), 2));
         var startToEndVector = {x:arc.x-move.x, y:arc.y-move.y};
-        var startToEndDistance = Math.sqrt(Math.pow(Math.abs(startToEndVector.x), 2) + Math.pow(Math.abs(startToEndVector.y), 2));
+        var startToEndDistance = Math.sqrt(Math.pow(Math.abs(startToEndVector.x), 2) +
+                                           Math.pow(Math.abs(startToEndVector.y), 2));
 
         // Compute angle based on all the sides using the Law of Sines explained at
         // http://math.stackexchange.com/questions/106539/solving-triangles-finding-missing-sides-angles-given-3-sides-angles
-        var alphaRadian = Math.acos((Math.pow(startToHalfDistance, 2) + Math.pow(startToHalfDistance, 2) - Math.pow(startToEndDistance, 2)) / 2*startToHalfDistance*startToHalfDistance);
+        var alphaRadian = Math.acos((2*Math.pow(startToHalfDistance, 2) - Math.pow(startToEndDistance, 2)) /
+                                     2*startToHalfDistance*startToHalfDistance);
 
         var arcAngleRadian = 2*(Math.PI - alphaRadian);
         var arcAngleDegrees = (180/Math.PI) * arcAngleRadian;
         var startToEndPolarVector = cartesianToPolar(startToEndVector);
         var halfToCenterPolarVector = {r:arc.r1, t:startToEndPolarVector.t + Math.PI/2};
         var halfToCenterCartesianVector = polarToCartesian(halfToCenterPolarVector);
-        var centerPoint = {x:middlePathPoint.x+halfToCenterCartesianVector.x, y:middlePathPoint.y+halfToCenterCartesianVector.y};
+        var centerPoint = {
+            x: middlePathPoint.x + halfToCenterCartesianVector.x,
+            y: middlePathPoint.y + halfToCenterCartesianVector.y
+        };
 
         return _('  (gr_arc (start %f %f) (end %f %f) (angle %f) (layer Edge.Cuts) (width 0.1))\n').
                  sprintf(centerPoint.x, -centerPoint.y, move.x, -move.y, -arcAngleDegrees);
@@ -173,5 +182,5 @@ function svgToKicadPcb(svgString, baseFilename)
         objects += getArcFromPath(path);
     });
 
-    return _(kicad_pcb_template).sprintf(baseFilename, objects);
+    return _(kicadPcbTemplate).sprintf(baseFilename, objects);
 }

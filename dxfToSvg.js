@@ -66,5 +66,10 @@ function dxfToSvg(dxfString)
         }
     });
 
-    return '<svg width="152.9mm" height="125.4mm" viewBox="31.385 -229.628 152.9 125.4" version="1.1" xmlns="http://www.w3.org/2000/svg" style="stroke-linecap:round;stroke-linejoin:round;fill:none"><g transform="scale(1,-1)"   style="stroke:#000000;stroke-width:0.2">' + svg + '</g></svg>';
+    return '<svg viewBox="31.385 -229.628 152.9 125.4" version="1.1" xmlns="http://www.w3.org/2000/svg">\n' +
+            '<g transform="scale(1,-1)" ' +
+            'style="stroke:black; stroke-width:0.2; stroke-linecap:round; stroke-linejoin:round; fill:none">\n'
+            + svg +
+            '</g>\n' +
+            '</svg>\n';
 }
