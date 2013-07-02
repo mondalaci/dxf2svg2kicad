@@ -3,7 +3,8 @@
 <head>
     <title>DXF to SVG to KICAD_PCB converter</title>
     <meta charset="utf-8">
-    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link href="//fonts.googleapis.com/css?family=Telex" rel="stylesheet">
+    <link href="components/normalize-css/normalize.css" rel="stylesheet">
     <link href="index.css" rel="stylesheet">
 </head>
 <body>
@@ -14,15 +15,17 @@
 
 <h1>DXF to SVG to KICAD_PCB converter</h1>
 
-1) Choose a DXF or SVG file to be converted - <input id="uploadButton" type="file" accept=".dxf,image/svg+xml">
-<br>
-2) Check the preview image.
-<br>
-<img id="svgImage" src="">
-<br>
-3) Save the converted <a id="saveSvgLink" href="#">SVG</a> or <a id="saveKicadPcbLink" href="#">KICAD_PCB</a> file.
+<section id="main">
+    <ol>
+        <li>Choose a DXF or SVG file to be converted &mdash;
+            <input id="uploadButton" type="file" accept=".dxf,image/svg+xml"><br>
+            (You can try <a href="test-files/pcb-contour.dxf">pcb-contour.dxf</a> for testing purposes.)</li>
+        <li>Check the preview image.<br><img id="svgImage" src=""></li>
+        <li>Save the converted <a id="saveSvgLink" href="#">SVG</a> or <a id="saveKicadPcbLink" href="#">KICAD_PCB</a> file.</li>
+    </ol>
+</section>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.string/2.3.0/underscore.string.min.js"></script>
