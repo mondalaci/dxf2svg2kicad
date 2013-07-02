@@ -10,5 +10,6 @@ QCAD "preserve geometry" advanced export option exports individual line segments
 References
 ----------
 
-* Mad props to [Rob Gilliom](http://usa.autodesk.com/adsk/servlet/item?id=12272454&linkID=10809853&siteID=123112) for [making me realize](http://tech.groups.yahoo.com/group/kicad-users/message/15334) that it's quite easy to parse DXF files.
+* [AutoCAD DXF File Format Summary](http://www.fileformat.info/format/dxf/egff.htm)
 * [DXF Reference](http://usa.autodesk.com/adsk/servlet/item?id=12272454&linkID=10809853&siteID=123112) for various versions of AutoCAD by Autodesk
+* Mad props to [Rob Gilliom](http://usa.autodesk.com/adsk/servlet/item?id=12272454&linkID=10809853&siteID=123112) for [making me realize](http://tech.groups.yahoo.com/group/kicad-users/message/15334) that it's quite easy to parse DXF files.
