@@ -1,5 +1,18 @@
 function dxfToSvg(dxfString)
 {
+    // Borrowed from http://stackoverflow.com/questions/610406/javascript-equivalent-to-printf-string-format/4673436#4673436
+    if (!String.prototype.format) {
+      String.prototype.format = function() {
+        var args = arguments;
+        return this.replace(/{(\d+)}/g, function(match, number) {
+          return typeof args[number] != 'undefined'
+            ? args[number]
+            : match
+          ;
+        });
+      };
+    }
+
     function dxfObjectToSvgSnippet(dxfObject)
     {
         function deg2rad(deg)
@@ -9,15 +22,15 @@ function dxfToSvg(dxfString)
 
         switch (dxfObject.type) {
             case 'LINE':
-                return _('<path d="M%s,%s L%s,%s"/>').sprintf(dxfObject.x, dxfObject.y, dxfObject.x1, dxfObject.y1);
+                return '<path d="M{0},{1} L{2},{3}"/>'.format(dxfObject.x, dxfObject.y, dxfObject.x1, dxfObject.y1);
             case 'CIRCLE':
-                return _('<circle cx="%s" cy="%s" r="%s"/>').sprintf(dxfObject.x, dxfObject.y, dxfObject.r);
+                return '<circle cx="{0}" cy="{1}" r="{2}"/>'.format(dxfObject.x, dxfObject.y, dxfObject.r);
             case 'ARC':
                 var x1 = dxfObject.x + dxfObject.r * Math.cos(deg2rad(dxfObject.a0));
                 var y1 = dxfObject.y + dxfObject.r * Math.sin(deg2rad(dxfObject.a0));
                 var x2 = dxfObject.x + dxfObject.r * Math.cos(deg2rad(dxfObject.a1));
                 var y2 = dxfObject.y + dxfObject.r * Math.sin(deg2rad(dxfObject.a1));
-                return _('<path d="M%s,%s A%s,%s 0 1,1 %s,%s"/>').sprintf(x1, y1, dxfObject.r, dxfObject.r, x2, y2);
+                return '<path d="M{0},{1} A{2},{3} 0 1,1 {4},{5}"/>'.format(x1, y1, dxfObject.r, dxfObject.r, x2, y2);
         }
     }
 

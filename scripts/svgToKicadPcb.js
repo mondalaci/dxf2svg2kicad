@@ -1,6 +1,6 @@
 function svgToKicadPcb(svgString, baseFilename)
 {
-    var kicadPcbTemplate = '(kicad_pcb (version 3) (host pcbnew "%s")\n\
+    var kicadPcbTemplate = '(kicad_pcb (version 3) (host pcbnew "{0}")\n\
 \n\
   (general\n\
     (links 0)\n\
@@ -100,9 +100,22 @@ function svgToKicadPcb(svgString, baseFilename)
     (add_net "")\n\
   )\n\
 \n\
-%s\n\
+{1}\n\
 )\n\
 ';
+
+    // Borrowed from http://stackoverflow.com/questions/610406/javascript-equivalent-to-printf-string-format/4673436#4673436
+    if (!String.prototype.format) {
+      String.prototype.format = function() {
+        var args = arguments;
+        return this.replace(/{(\d+)}/g, function(match, number) {
+          return typeof args[number] != 'undefined'
+            ? args[number]
+            : match
+          ;
+        });
+      };
+    }
 
     function getArcFromPath(path)
     {
@@ -156,8 +169,8 @@ function svgToKicadPcb(svgString, baseFilename)
             y: middlePathPoint.y + halfToCenterCartesianVector.y
         };
 
-        return _('  (gr_arc (start %f %f) (end %f %f) (angle %f) (layer Edge.Cuts) (width 0.1))\n').
-                 sprintf(centerPoint.x, -centerPoint.y, move.x, -move.y, -arcAngleDegrees);
+        return '  (gr_arc (start {0} {1}) (end {2} {3}) (angle {5}) (layer Edge.Cuts) (width 0.1))\n'.
+               format(centerPoint.x, -centerPoint.y, move.x, -move.y, -arcAngleDegrees);
     }
 
     var svgDoc = $.parseXML(svgString);
@@ -167,20 +180,20 @@ function svgToKicadPcb(svgString, baseFilename)
     // Negate y coordinates because SVG increases upwards while KiCad increases downwards.
 
     svgDom.find('line').each(function(index, line) {
-        objects += _('  (gr_line (start %f %f) (end %f %f) (angle 90) (layer Edge.Cuts) (width 0.1))\n').
-                   sprintf(line.x1.baseVal.value, -line.y1.baseVal.value,
-                           line.x2.baseVal.value, -line.y2.baseVal.value);
+        objects += '  (gr_line (start {0} {1}) (end {2} {3}) (angle 90) (layer Edge.Cuts) (width 0.1))\n'.
+                   format(line.x1.baseVal.value, -line.y1.baseVal.value,
+                          line.x2.baseVal.value, -line.y2.baseVal.value);
     });
 
     svgDom.find('circle').each(function(index, circle) {
-        objects += _('  (gr_circle (center %f %f) (end %f %f) (layer Edge.Cuts) (width 0.1))\n').
-                   sprintf(circle.cx.baseVal.value, -circle.cy.baseVal.value,
-                           circle.cx.baseVal.value, -circle.cy.baseVal.value+circle.r.baseVal.value);
+        objects += '  (gr_circle (center {0} {1}) (end {2} {3}) (layer Edge.Cuts) (width 0.1))\n'.
+                   format(circle.cx.baseVal.value, -circle.cy.baseVal.value,
+                          circle.cx.baseVal.value, -circle.cy.baseVal.value+circle.r.baseVal.value);
     });
 
     svgDom.find('path').each(function(index, path) {
         objects += getArcFromPath(path);
     });
 
-    return _(kicadPcbTemplate).sprintf(baseFilename, objects);
+    return kicadPcbTemplate.format(baseFilename, objects);
 }
