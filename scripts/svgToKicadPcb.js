@@ -169,7 +169,7 @@ function svgToKicadPcb(svgString, baseFilename)
             y: middlePathPoint.y + halfToCenterCartesianVector.y
         };
 
-        return '  (gr_arc (start {0} {1}) (end {2} {3}) (angle {5}) (layer Edge.Cuts) (width 0.1))\n'.
+        return '  (gr_arc (start {0} {1}) (end {2} {3}) (angle {4}) (layer Edge.Cuts) (width 0.1))\n'.
                format(centerPoint.x, -centerPoint.y, move.x, -move.y, -arcAngleDegrees);
     }
 
