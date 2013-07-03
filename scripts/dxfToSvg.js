@@ -45,7 +45,7 @@ function dxfToSvg(dxfString)
 
     var counter = 0;
     var code = null;
-    var entitiesSectionActive = false;
+    var isEntitiesSectionActive = false;
     var object = {};
     var svg = '';
 
@@ -57,8 +57,8 @@ function dxfToSvg(dxfString)
         } else {
             var value = line;
             if (groupCodes[code] == 'blockName' && value == 'ENTITIES') {
-                entitiesSectionActive = true;
-            } else if (entitiesSectionActive) {
+                isEntitiesSectionActive = true;
+            } else if (isEntitiesSectionActive) {
                 if (groupCodes[code] == 'entityType') {
                     if (object.type) {
                         svg += dxfObjectToSvgSnippet(object) + '\n';
@@ -67,7 +67,7 @@ function dxfToSvg(dxfString)
                     object = $.inArray(value, ['LINE', 'CIRCLE', 'ARC']) > -1 ? {type: value} : {};
 
                     if (value == 'ENDSEC') {
-                        entitiesSectionActive = false;
+                        isEntitiesSectionActive = false;
                     }
                 } else if (object.type && typeof groupCodes[code] != 'undefined') {
                     object[groupCodes[code]] = parseFloat(value);

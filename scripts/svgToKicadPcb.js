@@ -124,7 +124,10 @@ function svgToKicadPcb(svgString, baseFilename)
         }
 
         function polarToCartesian(polar) {
-            return {x:polar.r*Math.cos(polar.t), y:polar.r*Math.sin(polar.t)};
+            return {
+                x: polar.r * Math.cos(polar.t),
+                y: polar.r * Math.sin(polar.t)
+            };
         }
 
         var segments = path.pathSegList;
