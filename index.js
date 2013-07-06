@@ -9,17 +9,32 @@ $(document).ready(function() {
         var baseFilename = file.name;
         var lastDotPosition = baseFilename.lastIndexOf('.');
         bareFilename = baseFilename.substr(0, lastDotPosition);
-        fileExtension = baseFilename.substr(lastDotPosition+1);
+        fileExtension = baseFilename.substr(lastDotPosition+1).toLowerCase();
 
         $(new FileReader()).load(function(event) {
             var fileData = event.target.result;
-            svgString = fileExtension.toLowerCase() == 'dxf' ? dxfToSvg(fileData) : fileData;
+            switch (fileExtension) {
+                case 'dxf':
+                    svgString = dxfToSvg(fileData);
+                    $('.save-link').hide();
+                    $('#svg-and-kicad-pcb-save-links').show();
+                    break;
+                case 'svg':
+                    svgString = fileData;
+                    $('.save-link').hide();
+                    $('#kicad-pcb-save-link').show();
+                    break;
+                default:
+                    return;
+            }
+            svgString = fileExtension == 'dxf' ? dxfToSvg(fileData) : fileData;
             $('#svgImage')[0].src = 'data:image/svg+xml;utf8,' + svgString;
             kicadPcb = svgToKicadPcb(svgString, baseFilename);
         })[0].readAsText(file);
+        $('#dxf-input').show();
     });
 
-    $('#saveSvgLink').click(function() {
+    $('.saveSvgLink').click(function() {
         if (fileExtension == 'svg' || !svgString) {
             return;
         }
@@ -27,7 +42,7 @@ $(document).ready(function() {
         saveAs(blob, bareFilename+'.svg');
     });
 
-    $('#saveKicadPcbLink').click(function() {
+    $('.saveKicadPcbLink').click(function() {
         if (!kicadPcb) {
             return;
         }

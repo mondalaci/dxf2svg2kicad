@@ -3,6 +3,14 @@ body {
     margin: 10px;
 }
 
+a {
+    text-decoration: none;
+}
+
+a:link, a:visited {
+    color: #08d;
+}
+
 #svgImage {
     width: 800px;
 }
@@ -18,12 +26,8 @@ body {
     width: 850px;
 }
 
-a {
-    text-decoration: none;
-}
-
-a:link, a:visited {
-    color: #08d;
+#kicad-pcb-save-link, #svg-and-kicad-pcb-save-links {
+    display: none;
 }
 
 /* The styles below were borrowed from http://www.456bereastreet.com/archive/201105/styling_ordered_list_numbers/ */
