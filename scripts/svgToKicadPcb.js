@@ -1,3 +1,8 @@
+// Dependencies:
+// * http://jquery.com/
+// * https://github.com/mondalaci/positional-format.js
+// $ bower install jquery positional-format.js
+
 function svgToKicadPcb(svgString, baseFilename)
 {
     var kicadPcbTemplate = '(kicad_pcb (version 3) (host pcbnew "{0}")\n\
@@ -103,16 +108,6 @@ function svgToKicadPcb(svgString, baseFilename)
 {1}\n\
 )\n\
 ';
-
-    // Borrowed from http://stackoverflow.com/questions/610406/javascript-equivalent-to-printf-string-format/4673436#4673436
-    if (!String.prototype.format) {
-        String.prototype.format = function() {
-            var args = arguments;
-                return this.replace(/{(\d+)}/g, function(match, number) {
-                    return typeof args[number] != 'undefined' ? args[number] : match;
-            });
-        }
-    }
 
     function getArcFromPath(path)
     {
