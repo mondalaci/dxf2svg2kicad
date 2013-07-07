@@ -76,10 +76,19 @@ function dxfToSvg(dxfString)
         }
     });
 
-    return '<svg viewBox="31.385 -229.628 152.9 125.4" version="1.1" xmlns="http://www.w3.org/2000/svg">\n' +
-            '<g transform="scale(1,-1)" ' +
-            'style="stroke:black; stroke-width:0.2; stroke-linecap:round; stroke-linejoin:round; fill:none">\n'
-            + svg +
-            '</g>\n' +
-            '</svg>\n';
+    var svgId = "svg" + Math.round(Math.random() * Math.pow(10, 17));
+    svg = '<svg id="' + svgId + '" {0} version="1.1" xmlns="http://www.w3.org/2000/svg">\n' +
+          '<g transform="scale(1,-1)" ' +
+              'style="stroke:black; stroke-width:0.2; stroke-linecap:round; stroke-linejoin:round; fill:none">\n'
+          + svg +
+          '</g>\n' +
+          '</svg>\n';
+
+    // The SVG has to be added to the DOM to be able to retrieve its bounding box.
+    $(svg.format('')).appendTo('body');
+    var boundingBox = $('svg')[0].getBBox();
+    var viewBoxValue = '{0} {1} {2} {3}'.format(boundingBox.x, boundingBox.y, boundingBox.width, boundingBox.height);
+    $('#'+svgId).remove();
+
+    return svg.format('viewBox="' + viewBoxValue + '"');
 }
