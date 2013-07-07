@@ -27,7 +27,6 @@ $(document).ready(function() {
                 default:
                     return;
             }
-            svgString = fileExtension == 'dxf' ? dxfToSvg(fileData) : fileData;
             $('#svgImage')[0].src = 'data:image/svg+xml;utf8,' + svgString;
             kicadPcb = svgToKicadPcb(svgString, baseFilename);
         })[0].readAsText(file);
