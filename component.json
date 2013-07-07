@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "dependencies": {
     "normalize-css": "~2.1.2",
-    "positional-format.js": "latest"
+    "positional-format.js": "latest",
+    "jquery": "~2.0.3"
   }
 }
