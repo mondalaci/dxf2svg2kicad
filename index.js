@@ -37,15 +37,19 @@ $(document).ready(function() {
         if (fileExtension == 'svg' || !svgString) {
             return;
         }
-        var blob = new Blob([svgString], {type: 'text/plain; charset=utf-8'});
-        saveAs(blob, bareFilename+'.svg');
+        saveStringAsFile(svgString, bareFilename+'.svg');
     });
 
     $('.saveKicadPcbLink').click(function() {
         if (!kicadPcb) {
             return;
         }
-        var blob = new Blob([kicadPcb], {type: 'text/plain; charset=utf-8'});
-        saveAs(blob, bareFilename+'.kicad_pcb');
+        saveStringAsFile(kicadPcb, bareFilename+'.kicad_pcb');
     });
+
+    function saveStringAsFile(string, filename)
+    {
+        var blob = new Blob([string], {type: 'text/plain; charset=utf-8'});
+        saveAs(blob, filename);
+    }
 });
