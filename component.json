@@ -2,6 +2,7 @@
   "name": "dxf-to-svg-to-kicad-pcb-converter",
   "version": "0.0.0",
   "dependencies": {
-    "normalize-css": "~2.1.2"
+    "normalize-css": "~2.1.2",
+    "positional-format.js": "latest"
   }
 }
