@@ -13,18 +13,18 @@ $(document).ready(function() {
 
         $(new FileReader()).load(function(event) {
             var fileData = event.target.result;
+            $('.save-link').hide();
             switch (fileExtension) {
                 case 'dxf':
                     svgString = dxfToSvg(fileData);
-                    $('.save-link').hide();
                     $('#svg-and-kicad-pcb-save-links').show();
                     break;
                 case 'svg':
                     svgString = fileData;
-                    $('.save-link').hide();
                     $('#kicad-pcb-save-link').show();
                     break;
                 default:
+                    $('#no-save-link').show();
                     return;
             }
             $('#svgImage')[0].src = 'data:image/svg+xml;utf8,' + svgString;
