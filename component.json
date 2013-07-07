@@ -5,6 +5,7 @@
     "normalize-css": "~2.1.2",
     "positional-format.js": "latest",
     "jquery": "~2.0.3",
-    "FileSaver.js": "git@github.com:eligrey/FileSaver.js.git"
+    "FileSaver.js": "git@github.com:eligrey/FileSaver.js.git",
+    "modernizr": "~2.6.2"
   }
 }
