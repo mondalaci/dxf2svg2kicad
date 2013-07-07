@@ -74,16 +74,16 @@ function dxfToSvg(dxfString)
 
     var strokeWidth = 0.2;
     var svgId = "svg" + Math.round(Math.random() * Math.pow(10, 17));
-    svg = '<svg id="' + svgId + '" {0} version="1.1" xmlns="http://www.w3.org/2000/svg">\n' +
+    svg = '<svg {0} version="1.1" xmlns="http://www.w3.org/2000/svg">\n' +
           '<g transform="scale(1,-1)" ' +
-            ' style="stroke:black; stroke-width:' + strokeWidth+'; ' +
+            ' style="stroke:black; stroke-width:' + strokeWidth + '; ' +
                     'stroke-linecap:round; stroke-linejoin:round; fill:none">\n'
           + svg +
           '</g>\n' +
           '</svg>\n';
 
     // The SVG has to be added to the DOM to be able to retrieve its bounding box.
-    $(svg.format('')).appendTo('body');
+    $(svg.format('id="'+svgId+'"')).appendTo('body');
     var boundingBox = $('svg')[0].getBBox();
     var viewBoxValue = '{0} {1} {2} {3}'.format(boundingBox.x-strokeWidth/2, boundingBox.y-strokeWidth/2,
                                                 boundingBox.width+strokeWidth, boundingBox.height+strokeWidth);
