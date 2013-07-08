@@ -11,7 +11,7 @@ a:link, a:visited {
     color: #08d;
 }
 
-#svgImage {
+#svg-image {
     width: 800px;
 }
 
@@ -39,7 +39,6 @@ a:link, a:visited {
 .upgrade-browser-notification a:link, .upgrade-browser-notification a:visited {
     color: #00f;
 }
-
 
 /* The styles below were borrowed from http://www.456bereastreet.com/archive/201105/styling_ordered_list_numbers/ */
 

@@ -18,8 +18,8 @@ $(document).ready(function() {
         $('#missing-features').html(missingFeatures);
     }
 
-    $('#uploadButton').change(function(event) {
-        var file = $('#uploadButton')[0].files[0];
+    $('#upload-button').change(function(event) {
+        var file = $('#upload-button')[0].files[0];
         var baseFilename = file.name;
         var lastDotPosition = baseFilename.lastIndexOf('.');
         bareFilename = baseFilename.substr(0, lastDotPosition);
@@ -41,20 +41,20 @@ $(document).ready(function() {
                     $('#no-save-link').show();
                     return;
             }
-            $('#svgImage')[0].src = 'data:image/svg+xml;utf8,' + svgString;
+            $('#svg-image')[0].src = 'data:image/svg+xml;utf8,' + svgString;
             kicadPcb = svgToKicadPcb(svgString, baseFilename);
         })[0].readAsText(file);
         $('#dxf-input').show();
     });
 
-    $('.saveSvgLink').click(function() {
+    $('.save-svg-link').click(function() {
         if (fileExtension == 'svg' || !svgString) {
             return;
         }
         saveStringAsFile(svgString, bareFilename+'.svg');
     });
 
-    $('.saveKicadPcbLink').click(function() {
+    $('.save-kicad-pcb-link').click(function() {
         if (!kicadPcb) {
             return;
         }
