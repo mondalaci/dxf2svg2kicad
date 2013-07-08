@@ -2,10 +2,10 @@
   "name": "dxf-to-svg-to-kicad-pcb-converter",
   "version": "0.0.0",
   "dependencies": {
-    "normalize-css": "~2.1.2",
     "positional-format.js": "latest",
     "jquery": "~2.0.3",
     "FileSaver.js": "git@github.com:eligrey/FileSaver.js.git",
-    "modernizr": "~2.6.2"
+    "modernizr": "~2.6.2",
+    "html5-boilerplate": "~4.2.0"
   }
 }
