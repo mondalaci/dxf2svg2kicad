@@ -26,6 +26,12 @@ a:link, a:visited {
     width: 850px;
 }
 
+#upgrade-browser-notification {
+    background-color: #f88;
+    padding: 10px;
+    display: none;
+}
+
 #kicad-pcb-save-link, #svg-and-kicad-pcb-save-links {
     display: none;
 }

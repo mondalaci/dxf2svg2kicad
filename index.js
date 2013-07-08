@@ -4,6 +4,19 @@ $(document).ready(function() {
     var svgString = null;
     var kicadPcb = null;
 
+    var requiredFeatures = ['svg', 'inlinesvg', 'blobconstructor', 'filereader'];
+    var missingFeatures = [];
+    requiredFeatures.forEach(function(feature) {
+        if (!Modernizr[feature]) {
+            missingFeatures.append(feature);
+        }
+    });
+    missingFeatures = missingFeatures.join();
+
+    if (missingFeatures) {
+        $('#upgrade-browser-notification').show();
+    }
+
     $('#uploadButton').change(function(event) {
         var file = $('#uploadButton')[0].files[0];
         var baseFilename = file.name;
