@@ -19,7 +19,7 @@ $(document).ready(function() {
     }
 
     $('#upload-button').change(function(event) {
-        var file = $('#upload-button')[0].files[0];
+        var file = this.files[0];
         var baseFilename = file.name;
         var lastDotPosition = baseFilename.lastIndexOf('.');
         bareFilename = baseFilename.substr(0, lastDotPosition);
