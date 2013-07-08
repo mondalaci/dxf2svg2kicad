@@ -3,10 +3,6 @@ DXF to SVG to KiCad PCB converter
 
 [DXF to SVG to KiCad PCB converter webapp](http://mondalaci.github.io/dxf-to-svg-to-kicad-pcb-converter/) that works purely on the client side.
 
-QCAD, librecad, draftsight, freecad
-
-QCAD "preserve geometry" advanced export option exports individual line segments as separate lines.
-
 References
 ----------
 
