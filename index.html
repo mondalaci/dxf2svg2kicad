@@ -18,7 +18,7 @@
 <h1>DXF to SVG to KICAD_PCB converter</h1>
 
 <section id="main">
-    <p id="upgrade-browser-notification">
+    <p class="upgrade-browser-notification">
         This web application uses modern web technologies that do not seem to be supported by your browser.<br>
         Please <a href="http://browsehappy.com/" target="_blank">upgrade your browser</a>!
     </p>
@@ -34,10 +34,41 @@
             <span id="kicad-pcb-save-link" class="save-link">Save the converted
                 <a class="saveKicadPcbLink" href="#">KICAD_PCB</a> file.</span>
             <span id="svg-and-kicad-pcb-save-links" class="save-link">Save the converted
-                <a class="saveSvgLink" href="#">SVG</a> or <a class="saveKicadPcbLink" href="#">KICAD_PCB</a> file.</span>
+                <a class="saveSvgLink" href="#">SVG</a> or
+                <a class="saveKicadPcbLink" href="#">KICAD_PCB</a> file.</span>
+        </li>
+        <li>
+            <p>
+                If this tool worked for you then please consider
+                <a id="donate-link" href="#" target="_blank">buying me a beer</a>,
+                if not then <a id="report-link" href="#">report a bug</a>.
+            </p>
+
+            <div id="report-help">
+                <div class="upgrade-browser-notification">
+                    Your browser does not support the following feature(s): <span id="missing-features"></span><br>
+                    Please upgrade your browser as shown above and retry this web application before reporting a bug!
+                </div>
+
+                <p>
+                    You can report a bug by
+                    <a href="https://github.com/mondalaci/dxf-to-svg-to-kicad-pcb-converter/issues/new" target="_blank">
+                    opening a new issue</a>.<br>
+                    Please attach the input file and include your browser name and its version number.
+                </p>
+            </div>
         </li>
     </ol>
 </section>
+
+<div class="invisible">
+    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+        <input type="hidden" name="cmd" value="_s-xclick">
+        <input type="hidden" name="hosted_button_id" value="ZTAD2MZYXCPH4">
+        <input type="submit" name="submit" id="paypal-submit" />
+        <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+    </form>
+</div>
 
 <script src="components/jquery/jquery.min.js"></script>
 <script src="components/positional-format.js/positional-format.js"></script>

@@ -11,10 +11,11 @@ $(document).ready(function() {
             missingFeatures.append(feature);
         }
     });
-    missingFeatures = missingFeatures.join();
+    missingFeatures = missingFeatures.join(', ');
 
     if (missingFeatures) {
-        $('#upgrade-browser-notification').show();
+        $('.upgrade-browser-notification').show();
+        $('#missing-features').html(missingFeatures);
     }
 
     $('#uploadButton').change(function(event) {
@@ -58,6 +59,15 @@ $(document).ready(function() {
             return;
         }
         saveStringAsFile(kicadPcb, bareFilename+'.kicad_pcb');
+    });
+
+    $('#report-link').click(function() {
+        $("#report-help").show(500);
+    });
+
+    $('#donate-link').click(function() {
+        $("#paypal-submit").trigger("click");
+        return false;
     });
 
     function saveStringAsFile(string, filename)
