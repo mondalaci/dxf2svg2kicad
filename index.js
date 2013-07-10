@@ -1,3 +1,5 @@
+"use strict";
+
 $(document).ready(function() {
     var bareFilename = null;
     var fileExtension = null;

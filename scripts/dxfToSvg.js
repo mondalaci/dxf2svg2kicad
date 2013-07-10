@@ -3,6 +3,8 @@
 // * https://github.com/mondalaci/positional-format.js
 // $ bower install jquery positional-format.js
 
+"use strict";
+
 function dxfToSvg(dxfString)
 {
     function dxfObjectToSvgSnippet(dxfObject)
