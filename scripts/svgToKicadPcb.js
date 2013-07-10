@@ -108,8 +108,7 @@ function svgToKicadPcb(svgString, baseFilename)
   )\n\
 \n\
 {1}\n\
-)\n\
-';
+)\n';
 
     function getArcFromPath(path)
     {
@@ -129,10 +128,10 @@ function svgToKicadPcb(svgString, baseFilename)
 
         var segments = path.pathSegList;
 
-        if (!(segments.numberOfItems == 2 &&
-              segments.getItem(0).pathSegType == SVGPathSeg.PATHSEG_MOVETO_ABS &&
-              segments.getItem(1).pathSegType == SVGPathSeg.PATHSEG_ARC_ABS &&
-              segments.getItem(1).r1 == segments.getItem(1).r2))
+        if (!(segments.numberOfItems === 2 &&
+              segments.getItem(0).pathSegType === SVGPathSeg.PATHSEG_MOVETO_ABS &&
+              segments.getItem(1).pathSegType === SVGPathSeg.PATHSEG_ARC_ABS &&
+              segments.getItem(1).r1 === segments.getItem(1).r2))
         {
             return '';  // Path type is not supported by KiCad.
         }

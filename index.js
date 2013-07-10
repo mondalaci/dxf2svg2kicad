@@ -20,7 +20,7 @@ $(document).ready(function() {
         $('#missing-features').html(missingFeatures);
     }
 
-    $('#upload-button').change(function(event) {
+    $('#upload-button').change(function() {
         var file = this.files[0];
         var baseFilename = file.name;
         var lastDotPosition = baseFilename.lastIndexOf('.');
@@ -50,7 +50,7 @@ $(document).ready(function() {
     });
 
     $('.save-svg-link').click(function() {
-        if (fileExtension == 'svg' || !svgString) {
+        if (fileExtension === 'svg' || !svgString) {
             return;
         }
         saveStringAsFile(svgString, bareFilename+'.svg');

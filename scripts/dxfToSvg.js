@@ -50,24 +50,24 @@ function dxfToSvg(dxfString)
     dxfString.split('\r\n').forEach(function(line) {
         line = line.trim();
 
-        if (counter++ % 2 == 0) {
+        if (counter++ % 2 === 0) {
             code = parseInt(line);
         } else {
             var value = line;
-            if (groupCodes[code] == 'blockName' && value == 'ENTITIES') {
+            if (groupCodes[code] === 'blockName' && value === 'ENTITIES') {
                 isEntitiesSectionActive = true;
             } else if (isEntitiesSectionActive) {
-                if (groupCodes[code] == 'entityType') {
+                if (groupCodes[code] === 'entityType') {
                     if (object.type) {
                         svg += dxfObjectToSvgSnippet(object) + '\n';
                     }
 
                     object = $.inArray(value, ['LINE', 'CIRCLE', 'ARC']) > -1 ? {type: value} : {};
 
-                    if (value == 'ENDSEC') {
+                    if (value === 'ENDSEC') {
                         isEntitiesSectionActive = false;
                     }
-                } else if (object.type && typeof groupCodes[code] != 'undefined') {
+                } else if (object.type && typeof groupCodes[code] !== 'undefined') {
                     object[groupCodes[code]] = parseFloat(value);
                 }
             }
