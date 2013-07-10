@@ -3,10 +3,10 @@
 // * https://github.com/mondalaci/positional-format.js
 // $ bower install jquery positional-format.js
 
-"use strict";
-
 function svgToKicadPcb(svgString, baseFilename)
 {
+    "use strict";
+
     var kicadPcbTemplate = '(kicad_pcb (version 3) (host pcbnew "{0}")\n\
 \n\
   (general\n\

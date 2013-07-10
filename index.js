@@ -1,6 +1,6 @@
-"use strict";
-
 $(document).ready(function() {
+    "use strict";
+
     var bareFilename = null;
     var fileExtension = null;
     var svgString = null;

@@ -3,10 +3,10 @@
 // * https://github.com/mondalaci/positional-format.js
 // $ bower install jquery positional-format.js
 
-"use strict";
-
 function dxfToSvg(dxfString)
 {
+    "use strict";
+
     function dxfObjectToSvgSnippet(dxfObject)
     {
         function deg2rad(deg)
@@ -39,7 +39,7 @@ function dxfToSvg(dxfString)
         40: 'r',
         50: 'a0',
         51: 'a1'
-    }
+    };
 
     var counter = 0;
     var code = null;
@@ -79,8 +79,8 @@ function dxfToSvg(dxfString)
     svg = '<svg {0} version="1.1" xmlns="http://www.w3.org/2000/svg">\n' +
           '<g transform="scale(1,-1)" ' +
             ' style="stroke:black; stroke-width:' + strokeWidth + '; ' +
-                    'stroke-linecap:round; stroke-linejoin:round; fill:none">\n'
-          + svg +
+                    'stroke-linecap:round; stroke-linejoin:round; fill:none">\n' +
+          svg +
           '</g>\n' +
           '</svg>\n';
 
