@@ -62,7 +62,7 @@ $(document).ready(function() {
     });
 
     $('#report-link').click(function() {
-        $("#report-help").show(500);
+        $("#report-help").show();
     });
 
     $('#donate-link').click(function() {
