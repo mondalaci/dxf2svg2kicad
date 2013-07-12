@@ -34,13 +34,16 @@ $(document).ready(function() {
                 case 'dxf':
                     svgString = dxfToSvg(fileData);
                     $('#svg-and-kicad-pcb-save-links').show();
+                    $('#invalid-extension').hide();
                     break;
                 case 'svg':
                     svgString = fileData;
                     $('#kicad-pcb-save-link').show();
+                    $('#invalid-extension').hide();
                     break;
                 default:
                     $('#no-save-link').show();
+                    $('#invalid-extension').show();
                     return;
             }
             $('#svg-image')[0].src = 'data:image/svg+xml;utf8,' + svgString;

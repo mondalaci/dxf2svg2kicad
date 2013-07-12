@@ -26,7 +26,11 @@ a:link, a:visited {
     width: 850px;
 }
 
-#kicad-pcb-save-link, #svg-and-kicad-pcb-save-links, #report-help {
+#invalid-extension {
+    color: #f00;
+}
+
+#invalid-extension, #kicad-pcb-save-link, #svg-and-kicad-pcb-save-links, #report-help {
     display: none;
 }
 
@@ -53,7 +57,6 @@ ol > li {
     padding:4px 8px; /* Add some spacing around the content */
     list-style:none; /* Disable the normal item numbering */
     border-top:2px solid #666;
-    xbackground:#f6f6f6;
 }
 ol > li:before {
     content:counter(li); /* Use the counter as content */
