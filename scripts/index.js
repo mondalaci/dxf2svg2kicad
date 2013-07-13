@@ -46,7 +46,9 @@ $(document).ready(function() {
                     $('#invalid-extension').show();
                     return;
             }
-            $('#svg-image')[0].src = 'data:image/svg+xml;utf8,' + svgString;
+            $('#svg-image').remove();
+            var svgImage = $('<img>', {'id':'svg-image', src:'data:image/svg+xml;utf8,' + svgString});
+            $('#svg-image-container').append(svgImage);
             kicadPcb = svgToKicadPcb(svgString, baseFilename);
         })[0].readAsText(file);
         $('#dxf-input').show();
