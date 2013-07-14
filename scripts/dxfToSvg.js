@@ -74,6 +74,10 @@ function dxfToSvg(dxfString)
         }
     });
 
+    if (svg === '') {
+        return null;
+    }
+
     var strokeWidth = 0.2;
     var svgId = "svg" + Math.round(Math.random() * Math.pow(10, 17));
     svg = '<svg {0} version="1.1" xmlns="http://www.w3.org/2000/svg">\n' +

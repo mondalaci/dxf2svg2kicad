@@ -30,8 +30,12 @@ a:link, a:visited {
     color: #f00;
 }
 
-#invalid-extension, #kicad-pcb-save-link, #svg-and-kicad-pcb-save-links, #report-help {
+#invalid-extension, #invalid-input, #kicad-pcb-save-link, #svg-and-kicad-pcb-save-links, #report-help {
     display: none;
+}
+
+#invalid-input {
+    color: #f00;
 }
 
 .upgrade-browser-notification {

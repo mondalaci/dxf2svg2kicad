@@ -169,7 +169,12 @@ function svgToKicadPcb(svgString, baseFilename)
                format(centerPoint.x, -centerPoint.y, move.x, -move.y, -arcAngleDegrees);
     }
 
-    var svgDoc = $.parseXML(svgString);
+    try {
+        var svgDoc = $.parseXML(svgString);
+    } catch (exception) {
+        return null;
+    }
+
     var svgDom = $(svgDoc);
     var objects = '';
 
@@ -190,6 +195,10 @@ function svgToKicadPcb(svgString, baseFilename)
     svgDom.find('path').each(function(index, path) {
         objects += getArcFromPath(path);
     });
+
+    if (objects === '') {
+        return null;
+    }
 
     return kicadPcbTemplate.format(baseFilename, objects);
 }

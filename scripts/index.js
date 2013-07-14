@@ -30,6 +30,7 @@ $(document).ready(function() {
         $(new FileReader()).load(function(event) {
             var fileData = event.target.result;
             $('.save-link').hide();
+
             switch (fileExtension) {
                 case 'dxf':
                     svgString = dxfToSvg(fileData);
@@ -46,12 +47,21 @@ $(document).ready(function() {
                     $('#invalid-extension').show();
                     return;
             }
+
             $('#svg-image').remove();
-            var svgImage = $('<img>', {'id':'svg-image', src:'data:image/svg+xml;utf8,' + encodeURIComponent(svgString)});
+
+            checkConvertedInputString(svgString);
+            if (svgString === null) {
+                return;
+            }
+
+            var dataUri = 'data:image/svg+xml;utf8,' + encodeURIComponent(svgString);
+            var svgImage = $('<img>', {'id':'svg-image', src:dataUri});
             $('#svg-image-container').append(svgImage);
+
             kicadPcb = svgToKicadPcb(svgString, baseFilename);
+            checkConvertedInputString(kicadPcb);
         })[0].readAsText(file);
-        $('#dxf-input').show();
     });
 
     $('.save-svg-link').click(function() {
@@ -76,6 +86,16 @@ $(document).ready(function() {
         $("#paypal-submit").trigger("click");
         return false;
     });
+
+    function checkConvertedInputString(inputString)
+    {
+        if (inputString === null) {
+            $('#invalid-input').show();
+        } else {
+            $('#invalid-input').hide();
+        }
+
+    }
 
     function saveStringAsFile(string, filename)
     {
