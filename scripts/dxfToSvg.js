@@ -3,6 +3,11 @@
 // * https://github.com/mondalaci/positional-format.js
 // $ bower install jquery positional-format.js
 
+/**
+ * Convert DXF string to SVG format.
+ * @param {string} dxfString The DXF string to be converted.
+ * @returns {string|null} The converted SVG string or null if the conversion was unsuccessful.
+ */
 function dxfToSvg(dxfString)
 {
     "use strict";

@@ -3,7 +3,13 @@
 // * https://github.com/mondalaci/positional-format.js
 // $ bower install jquery positional-format.js
 
-function svgToKicadPcb(svgString, baseFilename)
+/**
+ * Convert SVG string to KICAD_PCB format.
+ * @param {string} svgString The SVG string to be converted.
+ * @param {string} title The title of the PCB.
+ * @returns {string|null} The converted KICAD_PCB format or null if the conversion was unsuccessful.
+ */
+function svgToKicadPcb(svgString, title)
 {
     "use strict";
 
@@ -200,5 +206,5 @@ function svgToKicadPcb(svgString, baseFilename)
         return null;
     }
 
-    return kicadPcbTemplate.format(baseFilename, objects);
+    return kicadPcbTemplate.format(title, objects);
 }

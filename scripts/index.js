@@ -22,10 +22,10 @@ $(document).ready(function() {
 
     $('#upload-button').change(function() {
         var file = this.files[0];
-        var baseFilename = file.name;
-        var lastDotPosition = baseFilename.lastIndexOf('.');
-        bareFilename = baseFilename.substr(0, lastDotPosition);
-        fileExtension = baseFilename.substr(lastDotPosition+1).toLowerCase();
+        var filename = file.name;
+        var lastDotPosition = filename.lastIndexOf('.');
+        bareFilename = filename.substr(0, lastDotPosition);
+        fileExtension = filename.substr(lastDotPosition+1).toLowerCase();
 
         $(new FileReader()).load(function(event) {
             var fileData = event.target.result;
@@ -59,7 +59,7 @@ $(document).ready(function() {
             var svgImage = $('<img>', {'id':'svg-image', src:dataUri});
             $('#svg-image-container').append(svgImage);
 
-            kicadPcb = svgToKicadPcb(svgString, baseFilename);
+            kicadPcb = svgToKicadPcb(svgString, filename);
             checkConvertedInputString(kicadPcb);
         })[0].readAsText(file);
     });
