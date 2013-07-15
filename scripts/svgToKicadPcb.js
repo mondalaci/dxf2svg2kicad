@@ -116,7 +116,41 @@ function svgToKicadPcb(svgString, title)
 {1}\n\
 )\n';
 
-    function getArcFromPath(path)
+    function lineToKicadObject(x1, y1, x2, y2)
+    {
+        return '(gr_line (start {0} {1}) (end {2} {3}) (angle 90) (layer Edge.Cuts) (width 0.1))\n'.
+                format(x1, -y1, x2, -y2);
+    }
+
+    function pathToKicadObject(path)
+    {
+        var segments = path.pathSegList;
+
+        if (segments.numberOfItems !== 2) {
+            return '';
+        }
+
+        var segment1 = segments.getItem(0);
+        var segment2 = segments.getItem(1);
+
+        if (segment1.pathSegType !== SVGPathSeg.PATHSEG_MOVETO_ABS) {
+            return '';
+        }
+
+        switch (segment2.pathSegType) {
+            case SVGPathSeg.PATHSEG_LINETO_ABS:
+                return lineToKicadObject(segment1.x, segment1.y, segment2.x, segment2.y);
+            case SVGPathSeg.PATHSEG_ARC_ABS:
+                if (segment2.r1 !== segment2.r2) {
+                    return '';
+                }
+                return arcToKicadObject(path);
+            default:
+                return '';
+        }
+    }
+
+    function arcToKicadObject(path)
     {
         function cartesianToPolar(cartesian) {
             return {
@@ -132,18 +166,8 @@ function svgToKicadPcb(svgString, title)
             };
         }
 
-        var segments = path.pathSegList;
-
-        if (!(segments.numberOfItems === 2 &&
-              segments.getItem(0).pathSegType === SVGPathSeg.PATHSEG_MOVETO_ABS &&
-              segments.getItem(1).pathSegType === SVGPathSeg.PATHSEG_ARC_ABS &&
-              segments.getItem(1).r1 === segments.getItem(1).r2))
-        {
-            return '';  // Path type is not supported by KiCad.
-        }
-
-        var move = segments.getItem(0);
-        var arc = segments.getItem(1);
+        var move = path.pathSegList.getItem(0);
+        var arc = path.pathSegList.getItem(1);
 
         var halfPathLength = path.getTotalLength() / 2;
         var middlePathPoint = path.getPointAtLength(halfPathLength);
@@ -199,7 +223,7 @@ function svgToKicadPcb(svgString, title)
     });
 
     svgDom.find('path').each(function(index, path) {
-        objects += getArcFromPath(path);
+        objects += pathToKicadObject(path);
     });
 
     if (objects === '') {

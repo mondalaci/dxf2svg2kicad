@@ -94,7 +94,6 @@ $(document).ready(function() {
         } else {
             $('#invalid-input').hide();
         }
-
     }
 
     function saveStringAsFile(string, filename)
