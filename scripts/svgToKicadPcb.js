@@ -13,6 +13,8 @@ function svgToKicadPcb(svgString, title)
 {
     "use strict";
 
+    var lineWidth = 0.1;
+
     var kicadPcbTemplate = '(kicad_pcb (version 3) (host pcbnew "{0}")\n\
 \n\
   (general\n\
@@ -118,8 +120,8 @@ function svgToKicadPcb(svgString, title)
 
     function lineToKicadObject(x1, y1, x2, y2)
     {
-        return '(gr_line (start {0} {1}) (end {2} {3}) (angle 90) (layer Edge.Cuts) (width 0.1))\n'.
-                format(x1, -y1, x2, -y2);
+        return '(gr_line (start {0} {1}) (end {2} {3}) (angle 90) (layer Edge.Cuts) (width {4}))\n'.
+                format(x1, -y1, x2, -y2, lineWidth);
     }
 
     function pathToKicadObject(path)
@@ -195,8 +197,8 @@ function svgToKicadPcb(svgString, title)
             y: middlePathPoint.y + halfToCenterCartesianVector.y
         };
 
-        return '  (gr_arc (start {0} {1}) (end {2} {3}) (angle {4}) (layer Edge.Cuts) (width 0.1))\n'.
-               format(centerPoint.x, -centerPoint.y, move.x, -move.y, -arcAngleDegrees);
+        return '  (gr_arc (start {0} {1}) (end {2} {3}) (angle {4}) (layer Edge.Cuts) (width {5}))\n'.
+               format(centerPoint.x, -centerPoint.y, move.x, -move.y, -arcAngleDegrees, lineWidth);
     }
 
     try {
@@ -211,15 +213,14 @@ function svgToKicadPcb(svgString, title)
     // Negate y coordinates because SVG increases upwards while KiCad increases downwards.
 
     svgDom.find('line').each(function(index, line) {
-        objects += '  (gr_line (start {0} {1}) (end {2} {3}) (angle 90) (layer Edge.Cuts) (width 0.1))\n'.
-                   format(line.x1.baseVal.value, -line.y1.baseVal.value,
-                          line.x2.baseVal.value, -line.y2.baseVal.value);
+        objects += lineToKicadObject(line.x1.baseVal.value, line.y1.baseVal.value,
+                                     line.x2.baseVal.value, line.y2.baseVal.value);
     });
 
     svgDom.find('circle').each(function(index, circle) {
-        objects += '  (gr_circle (center {0} {1}) (end {2} {3}) (layer Edge.Cuts) (width 0.1))\n'.
+        objects += '  (gr_circle (center {0} {1}) (end {2} {3}) (layer Edge.Cuts) (width {4}))\n'.
                    format(circle.cx.baseVal.value, -circle.cy.baseVal.value,
-                          circle.cx.baseVal.value, -circle.cy.baseVal.value+circle.r.baseVal.value);
+                          circle.cx.baseVal.value, -circle.cy.baseVal.value+circle.r.baseVal.value, lineWidth);
     });
 
     svgDom.find('path').each(function(index, path) {
