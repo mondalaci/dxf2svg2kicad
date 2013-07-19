@@ -185,7 +185,7 @@ function svgToKicadPcb(svgString, title)
         // Compute angle based on all the sides using the Law of Sines explained at
         // http://math.stackexchange.com/questions/106539/solving-triangles-finding-missing-sides-angles-given-3-sides-angles
         var alphaRadian = Math.acos((2*Math.pow(startToHalfDistance, 2) - Math.pow(startToEndDistance, 2)) /
-                                     2*startToHalfDistance*startToHalfDistance);
+                                    (2*startToHalfDistance*startToHalfDistance));
 
         var arcAngleRadian = 2*(Math.PI - alphaRadian);
         var arcAngleDegrees = (180/Math.PI) * arcAngleRadian;
