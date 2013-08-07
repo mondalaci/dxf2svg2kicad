@@ -30,7 +30,14 @@ function dxfToSvg(dxfString)
                 var y1 = dxfObject.y + dxfObject.r * Math.sin(deg2rad(dxfObject.a0));
                 var x2 = dxfObject.x + dxfObject.r * Math.cos(deg2rad(dxfObject.a1));
                 var y2 = dxfObject.y + dxfObject.r * Math.sin(deg2rad(dxfObject.a1));
-                return '<path d="M{0},{1} A{2},{3} 0 1,1 {4},{5}"/>'.format(x1, y1, dxfObject.r, dxfObject.r, x2, y2);
+
+                if (dxfObject.a1 < dxfObject.a0) {
+                    dxfObject.a1 += 360;
+                }
+                var largeArcFlag = dxfObject.a1 - dxfObject.a0 > 180 ? 1 : 0;
+
+                return '<path d="M{0},{1} A{2},{3} 0 {4},1 {5},{6}"/>'.
+                        format(x1, y1, dxfObject.r, dxfObject.r, largeArcFlag, x2, y2);
         }
     }
 
