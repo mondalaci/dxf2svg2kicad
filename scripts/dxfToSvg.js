@@ -59,7 +59,11 @@ function dxfToSvg(dxfString)
     var object = {};
     var svg = '';
 
-    dxfString.split('\r\n').forEach(function(line) {
+    // Normalize platform-specific newlines.
+    dxfString = dxfString.replace(/\r\n/g, '\n');
+    dxfString = dxfString.replace(/\r/g, '\n');
+
+    dxfString.split('\n').forEach(function(line) {
         line = line.trim();
 
         if (counter++ % 2 === 0) {
