@@ -95,9 +95,10 @@ function dxfToSvg(dxfString)
     }
 
     var strokeWidth = 0.2;
+    var pixelToMillimeterConversionRatio = 3.543299873306695;
     var svgId = "svg" + Math.round(Math.random() * Math.pow(10, 17));
     svg = '<svg {0} version="1.1" xmlns="http://www.w3.org/2000/svg">\n' +
-          '<g transform="scale(1,-1)" ' +
+          '<g transform="scale({0},-{0})" '.format(pixelToMillimeterConversionRatio) +
             ' style="stroke:black; stroke-width:' + strokeWidth + '; ' +
                     'stroke-linecap:round; stroke-linejoin:round; fill:none">\n' +
           svg +
