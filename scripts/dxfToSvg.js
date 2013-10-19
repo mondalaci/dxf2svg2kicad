@@ -21,8 +21,7 @@ function dxfToSvg(dxfString)
 
         switch (dxfObject.type) {
             case 'LINE':
-                return '<line x1="{0}" y1="{1}" x2="{2}" y2="{3}"/>'.
-                        format(dxfObject.x, dxfObject.y, dxfObject.x1, dxfObject.y1);
+                return '<path d="M{0},{1} {2},{3}"/>'.format(dxfObject.x, dxfObject.y, dxfObject.x1, dxfObject.y1);
             case 'CIRCLE':
                 return '<circle cx="{0}" cy="{1}" r="{2}"/>'.format(dxfObject.x, dxfObject.y, dxfObject.r);
             case 'ARC':
