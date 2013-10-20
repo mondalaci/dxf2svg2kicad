@@ -1,5 +1,5 @@
 {
-  "name": "dxf-to-svg-to-kicad-pcb-converter",
+  "name": "dxf2svg2kicad",
   "version": "0.0.0",
   "dependencies": {
     "positional-format.js": "latest",
