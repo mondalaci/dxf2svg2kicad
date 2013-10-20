@@ -13,7 +13,7 @@ function svgToKicadPcb(svgString, title)
 {
     "use strict";
 
-    var lineWidth = 0.1;
+    var lineWidth = 0.01;
 
     var kicadPcbTemplate = '(kicad_pcb (version 3) (host pcbnew "{0}")\n\
 \n\
