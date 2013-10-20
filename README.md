@@ -1,7 +1,7 @@
 DXF to SVG to KICAD_PCB converter
 =================================
 
-[DXF to SVG to KICAD_PCB converter webapp](http://mondalaci.github.io/dxf2svg2kicad/) that runs purely on the client side.
+dxf2svg2kicad is a DXF to SVG to KICAD_PCB converter [webapp](http://mondalaci.github.io/dxf2svg2kicad/) that runs purely on the client side.
 
 You can read some background info in the [release announcement](http://tech.groups.yahoo.com/group/kicad-users/message/15818) and [another relevant thread](http://tech.groups.yahoo.com/group/kicad-users/message/15826) on the kicad-users mailing list.
 
