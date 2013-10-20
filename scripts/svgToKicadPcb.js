@@ -120,7 +120,7 @@ function svgToKicadPcb(svgString, title)
 
     function lineToKicadObject(x1, y1, x2, y2)
     {
-        return '(gr_line (start {0} {1}) (end {2} {3}) (angle 90) (layer Edge.Cuts) (width {4}))\n'.
+        return '  (gr_line (start {0} {1}) (end {2} {3}) (angle 90) (layer Edge.Cuts) (width {4}))\n'.
                 format(x1, -y1, x2, -y2, lineWidth);
     }
 
