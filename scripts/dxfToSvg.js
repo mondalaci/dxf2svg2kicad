@@ -14,6 +14,11 @@ function dxfToSvg(dxfString)
 
     function dxfObjectToSvgSnippet(dxfObject)
     {
+        function getLineSvg(x1, y1, x2, y2)
+        {
+            return '<path d="M{0},{1} {2},{3}"/>\n'.format(x1, y1, x2, y2);
+        }
+
         function deg2rad(deg)
         {
             return deg * (Math.PI/180);
@@ -21,9 +26,9 @@ function dxfToSvg(dxfString)
 
         switch (dxfObject.type) {
             case 'LINE':
-                return '<path d="M{0},{1} {2},{3}"/>'.format(dxfObject.x, dxfObject.y, dxfObject.x1, dxfObject.y1);
+                return getLineSvg(dxfObject.x, dxfObject.y, dxfObject.x1, dxfObject.y1);
             case 'CIRCLE':
-                return '<circle cx="{0}" cy="{1}" r="{2}"/>'.format(dxfObject.x, dxfObject.y, dxfObject.r);
+                return '<circle cx="{0}" cy="{1}" r="{2}"/>\n'.format(dxfObject.x, dxfObject.y, dxfObject.r);
             case 'ARC':
                 var x1 = dxfObject.x + dxfObject.r * Math.cos(deg2rad(dxfObject.a0));
                 var y1 = dxfObject.y + dxfObject.r * Math.sin(deg2rad(dxfObject.a0));
@@ -35,8 +40,17 @@ function dxfToSvg(dxfString)
                 }
                 var largeArcFlag = dxfObject.a1 - dxfObject.a0 > 180 ? 1 : 0;
 
-                return '<path d="M{0},{1} A{2},{3} 0 {4},1 {5},{6}"/>'.
+                return '<path d="M{0},{1} A{2},{3} 0 {4},1 {5},{6}"/>\n'.
                         format(x1, y1, dxfObject.r, dxfObject.r, largeArcFlag, x2, y2);
+            case 'LWPOLYLINE':
+                var svgSnippet = '';
+                var vertices = dxfObject.vertices;
+                for (var i=0; i<vertices.length-1; i++) {
+                    var vertice1 = vertices[i];
+                    var vertice2 = vertices[i+1];
+                    svgSnippet += getLineSvg(vertice1.x, vertice1.y, vertice2.x, vertice2.y)
+                }
+                return svgSnippet;
         }
     }
 
@@ -51,6 +65,13 @@ function dxfToSvg(dxfString)
         50: 'a0',
         51: 'a1'
     };
+
+    var supportedEntities = [
+        'LINE',
+        'CIRCLE',
+        'ARC',
+        'LWPOLYLINE'
+    ];
 
     var counter = 0;
     var code = null;
@@ -69,21 +90,29 @@ function dxfToSvg(dxfString)
             code = parseInt(line);
         } else {
             var value = line;
-            if (groupCodes[code] === 'blockName' && value === 'ENTITIES') {
+            var groupCode = groupCodes[code];
+            if (groupCode === 'blockName' && value === 'ENTITIES') {
                 isEntitiesSectionActive = true;
             } else if (isEntitiesSectionActive) {
-                if (groupCodes[code] === 'entityType') {
+                if (groupCode === 'entityType') {  // New entity starts.
                     if (object.type) {
-                        svg += dxfObjectToSvgSnippet(object) + '\n';
+                        svg += dxfObjectToSvgSnippet(object);
                     }
 
-                    object = $.inArray(value, ['LINE', 'CIRCLE', 'ARC']) > -1 ? {type: value} : {};
+                    object = $.inArray(value, supportedEntities) > -1 ? {type: value} : {};
 
                     if (value === 'ENDSEC') {
                         isEntitiesSectionActive = false;
                     }
-                } else if (object.type && typeof groupCodes[code] !== 'undefined') {
-                    object[groupCodes[code]] = parseFloat(value);
+                } else if (object.type && typeof groupCode !== 'undefined') {  // Known entity property recognized.
+                    object[groupCode] = parseFloat(value);
+
+                    if (object.type == 'LWPOLYLINE' && groupCode === 'y') {
+                        if (!object.vertices) {
+                            object.vertices = [];
+                        }
+                        object.vertices.push({x:object.x, y:object.y});
+                    }
                 }
             }
         }
