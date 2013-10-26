@@ -48,7 +48,7 @@ function dxfToSvg(dxfString)
                 for (var i=0; i<vertices.length-1; i++) {
                     var vertice1 = vertices[i];
                     var vertice2 = vertices[i+1];
-                    svgSnippet += getLineSvg(vertice1.x, vertice1.y, vertice2.x, vertice2.y)
+                    svgSnippet += getLineSvg(vertice1.x, vertice1.y, vertice2.x, vertice2.y);
                 }
                 return svgSnippet;
         }
