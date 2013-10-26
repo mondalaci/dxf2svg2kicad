@@ -3,6 +3,7 @@ $(document).ready(function() {
 
     var bareFilename = null;
     var fileExtension = null;
+    var filename = null
     var svgString = null;
     var kicadPcb = null;
 
@@ -22,7 +23,7 @@ $(document).ready(function() {
 
     $('#upload-button').change(function() {
         var file = this.files[0];
-        var filename = file.name;
+        filename = file.name;
         var lastDotPosition = filename.lastIndexOf('.');
         bareFilename = filename.substr(0, lastDotPosition);
         fileExtension = filename.substr(lastDotPosition+1).toLowerCase();
@@ -75,7 +76,13 @@ $(document).ready(function() {
         if (!kicadPcb) {
             return;
         }
+        kicadPcb = svgToKicadPcb(svgString, filename);  // Regenerate because advanced options could have been tweaked.
         saveStringAsFile(kicadPcb, bareFilename+'.kicad_pcb');
+    });
+
+    $('#advanced-options-link').click(function() {
+        $("#advanced-options").show();
+        $("#advanced-options-expander").hide();
     });
 
     $('#report-link').click(function() {

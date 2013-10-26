@@ -7,7 +7,8 @@ a {
     text-decoration: none;
 }
 
-a:link, a:visited {
+a:link,
+a:visited {
     color: #08d;
 }
 
@@ -30,7 +31,12 @@ a:link, a:visited {
     color: #f00;
 }
 
-#invalid-extension, #invalid-input, #kicad-pcb-save-link, #svg-and-kicad-pcb-save-links, #report-help {
+#invalid-extension,
+#invalid-input,
+#kicad-pcb-save-link,
+#svg-and-kicad-pcb-save-links,
+#advanced-options,
+#report-help {
     display: none;
 }
 
@@ -44,8 +50,13 @@ a:link, a:visited {
     display: none;
 }
 
-.upgrade-browser-notification a:link, .upgrade-browser-notification a:visited {
+.upgrade-browser-notification a:link,
+.upgrade-browser-notification a:visited {
     color: #00f;
+}
+
+.float-input {
+    width: 100px;
 }
 
 /* The styles below were borrowed from http://www.456bereastreet.com/archive/201105/styling_ordered_list_numbers/ */
@@ -55,6 +66,7 @@ ol {
     margin-left:0; /* Remove the default left margin */
     padding-left:0; /* Remove the default left padding */
 }
+
 ol > li {
     position:relative; /* Create a positioning context */
     margin:0 0 6px 2em; /* Give each list item a left margin to make room for the numbers */
@@ -62,6 +74,7 @@ ol > li {
     list-style:none; /* Disable the normal item numbering */
     border-top:2px solid #666;
 }
+
 ol > li:before {
     content:counter(li); /* Use the counter as content */
     counter-increment:li; /* Increment the counter by 1 */
@@ -85,5 +98,10 @@ ol > li:before {
     text-align:center;
 }
 li ol,
-li ul {margin-top:6px;}
-ol ol li:last-child {margin-bottom:0;}
+li ul {
+    margin-top:6px;
+}
+
+ol ol li:last-child {
+    margin-bottom:0;
+}

@@ -118,10 +118,12 @@ function svgToKicadPcb(svgString, title)
 {1}\n\
 )\n';
 
+    // Y coordinates are negated below because SVG increases upwards while KiCad increases downwards.
+
     function lineToKicadObject(x1, y1, x2, y2)
     {
         return '  (gr_line (start {0} {1}) (end {2} {3}) (angle 90) (layer Edge.Cuts) (width {4}))\n'.
-                format(x1, -y1, x2, -y2, lineWidth);
+                format(x1+translationX, -(y1+translationY), x2+translationX, -(y2+translationY), lineWidth);
     }
 
     function pathToKicadObject(path)
@@ -198,8 +200,13 @@ function svgToKicadPcb(svgString, title)
         };
 
         return '  (gr_arc (start {0} {1}) (end {2} {3}) (angle {4}) (layer Edge.Cuts) (width {5}))\n'.
-               format(centerPoint.x, -centerPoint.y, move.x, -move.y, -arcAngleDegrees, lineWidth);
+               format(centerPoint.x+translationX, -(centerPoint.y+translationY),
+                      move.x+translationX, -(move.y+translationY),
+                      -arcAngleDegrees, lineWidth);
     }
+
+    var translationX = parseFloat($('#translation-x').val());
+    var translationY = parseFloat($('#translation-y').val());
 
     try {
         var svgDoc = $.parseXML(svgString);
@@ -210,17 +217,16 @@ function svgToKicadPcb(svgString, title)
     var svgDom = $(svgDoc);
     var objects = '';
 
-    // Negate y coordinates because SVG increases upwards while KiCad increases downwards.
-
     svgDom.find('line').each(function(index, line) {
         objects += lineToKicadObject(line.x1.baseVal.value, line.y1.baseVal.value,
                                      line.x2.baseVal.value, line.y2.baseVal.value);
     });
 
     svgDom.find('circle').each(function(index, circle) {
+        var cx = circle.cx.baseVal.value + translationX;
+        var cy = circle.cy.baseVal.value + translationY;
         objects += '  (gr_circle (center {0} {1}) (end {2} {3}) (layer Edge.Cuts) (width {4}))\n'.
-                   format(circle.cx.baseVal.value, -circle.cy.baseVal.value,
-                          circle.cx.baseVal.value, -circle.cy.baseVal.value+circle.r.baseVal.value, lineWidth);
+                   format(cx, -cy, cx, -cy+circle.r.baseVal.value, lineWidth);
     });
 
     svgDom.find('path').each(function(index, path) {
