@@ -122,7 +122,7 @@ function svgToKicadPcb(svgString, title)
 
     function lineToKicadObject(x1, y1, x2, y2)
     {
-        return '  (gr_line (start {0} {1}) (end {2} {3}) (angle 90) (layer Edge.Cuts) (width {4}))\n'.
+        return '  (gr_line (start {0} {1}) (end {2} {3}) (angle 90) (layer {layer}) (width {4}))\n'.
                 format(x1+translationX, -(y1+translationY), x2+translationX, -(y2+translationY), lineWidth);
     }
 
@@ -199,7 +199,7 @@ function svgToKicadPcb(svgString, title)
             y: middlePathPoint.y + halfToCenterCartesianVector.y
         };
 
-        return '  (gr_arc (start {0} {1}) (end {2} {3}) (angle {4}) (layer Edge.Cuts) (width {5}))\n'.
+        return '  (gr_arc (start {0} {1}) (end {2} {3}) (angle {4}) (layer {layer}) (width {5}))\n'.
                format(centerPoint.x+translationX, -(centerPoint.y+translationY),
                       move.x+translationX, -(move.y+translationY),
                       -arcAngleDegrees, lineWidth);
@@ -207,6 +207,7 @@ function svgToKicadPcb(svgString, title)
 
     var translationX = parseFloat($('#translation-x').val());
     var translationY = parseFloat($('#translation-y').val());
+    var layer = $('#layer').val();
 
     try {
         var svgDoc = $.parseXML(svgString);
@@ -225,7 +226,7 @@ function svgToKicadPcb(svgString, title)
     svgDom.find('circle').each(function(index, circle) {
         var cx = circle.cx.baseVal.value + translationX;
         var cy = circle.cy.baseVal.value + translationY;
-        objects += '  (gr_circle (center {0} {1}) (end {2} {3}) (layer Edge.Cuts) (width {4}))\n'.
+        objects += '  (gr_circle (center {0} {1}) (end {2} {3}) (layer {layer}) (width {4}))\n'.
                    format(cx, -cy, cx, -cy+circle.r.baseVal.value, lineWidth);
     });
 
@@ -237,5 +238,5 @@ function svgToKicadPcb(svgString, title)
         return null;
     }
 
-    return kicadPcbTemplate.format(title, objects);
+    return kicadPcbTemplate.format(title, objects).replace(/{layer}/g, layer);
 }

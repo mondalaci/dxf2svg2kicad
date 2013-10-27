@@ -44,12 +44,35 @@
                 <a class="save-kicad-pcb-link" href="#_">KICAD_PCB</a> file.</span>
             <br>
             <span id="advanced-options-expander"><a id="advanced-options-link" href="#_">Advanced options...</a></span>
-            <span id="advanced-options">
+            <div id="advanced-options">
                 <br>
-                Note that the following option only pertains to KICAD_PCBs, not SVGs.<br>
-                Translate drawing by
-                <input id="translation-x" type="number" step="any" value="0" class="float-input"> X ,
-                <input id="translation-y" type="number" value="0" class="float-input"> Y coordinates</span>
+                Note that the following options only pertain to KICAD_PCBs, not SVGs.<br>
+                <ul>
+                    <li>
+                        Layer to be used:
+                        <select id="layer">
+                            <option value="F.Adhes">F.Adhes</option>
+                            <option value="B.Adhes">B.Adhes</option>
+                            <option value="F.Paste">F.Paste</option>
+                            <option value="B.Paste">B.Paste</option>
+                            <option value="F.SilkS">F.SilkS</option>
+                            <option value="B.SilkS">B.SilkS</option>
+                            <option value="F.Mask">F.Mask</option>
+                            <option value="B.Mask">B.Mask</option>
+                            <option value="Dwgs.User">Dwgs.User</option>
+                            <option value="Cmts.User">Cmts.User</option>
+                            <option value="Eco1.User">Eco1.User</option>
+                            <option value="Eco2.User">Eco2.User</option>
+                            <option value="Edge.Cuts" selected>Edge.Cuts</option>
+                        </select>
+                    </li>
+                    <li>
+                        Translate drawing by
+                        <input id="translation-x" type="number" step="any" value="0" class="float-input"> X ,
+                        <input id="translation-y" type="number" value="0" class="float-input"> Y coordinates
+                    </li>
+                </ul>
+            </div>
         </li>
         <li>
             If this tool worked for you then please consider
