@@ -94,13 +94,23 @@ $(document).ready(function() {
         if (!kicadPcb) {
             return;
         }
-        kicadPcb = svgToKicadPcbGetter(svgString);  // Regenerate because advanced options could have been tweaked.
+        kicadPcb = svgToKicadPcbGetter(svgString);
         saveStringAsFile(kicadPcb, bareFilename+'.kicad_pcb');
     });
 
     $('#advanced-options-link').click(function() {
         $("#advanced-options").show();
         $("#advanced-options-expander").hide();
+    });
+
+    $('#translation-x, #translation-y').change(function() {
+        var id = this.id;
+        var value = parseFloat($('#'+id).val());
+        if (isNaN(value)) {
+            $('#invalid-input-'+id).show();
+        } else {
+            $('#invalid-input-'+id).hide();
+        }
     });
 
     $('#report-link').click(function() {
@@ -117,17 +127,11 @@ $(document).ready(function() {
         var translationX = parseFloat($('#translation-x').val());
         if (isNaN(translationX)) {
             translationX = 0;
-            $('#invalid-input-translation-x').show();
-        } else {
-            $('#invalid-input-translation-x').hide();
         }
 
         var translationY = parseFloat($('#translation-y').val());
         if (isNaN(translationY)) {
             translationY = 0;
-            $('#invalid-input-translation-y').show();
-        } else {
-            $('#invalid-input-translation-y').hide();
         }
 
         var layer = $('#layer').val();
