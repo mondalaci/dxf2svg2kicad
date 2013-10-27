@@ -115,8 +115,23 @@ $(document).ready(function() {
     function svgToKicadPcbGetter(svgString)
     {
         var translationX = parseFloat($('#translation-x').val());
+        if (isNaN(translationX)) {
+            translationX = 0;
+            $('#invalid-input-translation-x').show();
+        } else {
+            $('#invalid-input-translation-x').hide();
+        }
+
         var translationY = parseFloat($('#translation-y').val());
+        if (isNaN(translationY)) {
+            translationY = 0;
+            $('#invalid-input-translation-y').show();
+        } else {
+            $('#invalid-input-translation-y').hide();
+        }
+
         var layer = $('#layer').val();
+
         return svgToKicadPcb(svgString, filename, layer, translationX, translationY, kicadPcbToBeAppended);
     }
 

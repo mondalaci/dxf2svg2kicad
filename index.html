@@ -32,7 +32,7 @@
             <a href="tests/test.svg">test.svg</a> for testing purposes.)</li>
         <li>
             Check the preview image.
-            <div id="invalid-input-file" class="invalid-input">The input file seems invalid.</div>
+            <div id="invalid-input-file" class="invalid-input">The input file seems invalid!</div>
             <div id="svg-image-container"></div>
         </li>
         <li>
@@ -70,11 +70,15 @@
                         Translate drawing by
                         <input id="translation-x" type="number" step="any" value="0" class="float-input">X &nbsp;
                         <input id="translation-y" type="number" value="0" class="float-input">Y mm
+                        <div id="invalid-input-translation-x" class="invalid-input">
+                            Coordinate X is not a valid floating-point number! &mdash; Using 0 instead.</div>
+                        <div id="invalid-input-translation-y" class="invalid-input">
+                            Coordinate Y is not a valid floating-point number! &mdash; Using 0 instead.</div>
                     </li>
                     <li>
                         Append converted file to <input id="appended-file-chooser" type="file" accept=".kicad_pcb">
                         <div id="invalid-append-file" class="invalid-input">
-                            The chosen file is not a valid KICAD_PCB file and won't be used.
+                            The chosen file is not a valid KICAD_PCB file and won't be used!
                         </div>
                     </li>
                 </ul>
