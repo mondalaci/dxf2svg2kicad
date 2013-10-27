@@ -1,12 +1,12 @@
-var globals = {};
-
 $(document).ready(function() {
     "use strict";
+
     var bareFilename = null;
     var fileExtension = null;
     var filename = null;
     var svgString = null;
     var kicadPcb = null;
+    var kicadPcbToBeAppended = null;
 
     var requiredFeatures = ['svg', 'inlinesvg', 'blobconstructor', 'filereader'];
     var missingFeatures = [];
@@ -61,7 +61,7 @@ $(document).ready(function() {
             var svgImage = $('<img>', {'id':'svg-image', src:dataUri});
             $('#svg-image-container').append(svgImage);
 
-            kicadPcb = svgToKicadPcb(svgString, filename);
+            kicadPcb = svgToKicadPcbGetter(svgString);
             checkConvertedInputString(kicadPcb);
         })[0].readAsText(file);
     });
@@ -74,10 +74,10 @@ $(document).ready(function() {
 
             var isFileValid = _(fileData).startsWith('(kicad_pcb ') && _(fileData).endsWith(')');
             if (isFileValid) {
-                globals.kicadPcbToBeAppended = fileData.substr(0, fileData.length-1);
+                kicadPcbToBeAppended = fileData.substr(0, fileData.length-1);
                 $('#invalid-append-file').hide();
             } else {
-                globals.kicadPcbToBeAppended = null;
+                kicadPcbToBeAppended = null;
                 $('#invalid-append-file').show();
             }
         })[0].readAsText(file);
@@ -94,7 +94,7 @@ $(document).ready(function() {
         if (!kicadPcb) {
             return;
         }
-        kicadPcb = svgToKicadPcb(svgString, filename);  // Regenerate because advanced options could have been tweaked.
+        kicadPcb = svgToKicadPcbGetter(svgString);  // Regenerate because advanced options could have been tweaked.
         saveStringAsFile(kicadPcb, bareFilename+'.kicad_pcb');
     });
 
@@ -111,6 +111,14 @@ $(document).ready(function() {
         $("#paypal-submit").trigger("click");
         return false;
     });
+
+    function svgToKicadPcbGetter(svgString)
+    {
+        var translationX = parseFloat($('#translation-x').val());
+        var translationY = parseFloat($('#translation-y').val());
+        var layer = $('#layer').val();
+        return svgToKicadPcb(svgString, filename, layer, translationX, translationY, kicadPcbToBeAppended);
+    }
 
     function checkConvertedInputString(inputString)
     {

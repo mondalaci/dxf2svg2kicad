@@ -9,7 +9,7 @@
  * @param {string} title The title of the PCB.
  * @returns {string|null} The converted KICAD_PCB format or null if the conversion was unsuccessful.
  */
-function svgToKicadPcb(svgString, title)
+function svgToKicadPcb(svgString, title, layer, translationX, translationY, kicadPcbToBeAppended)
 {
     "use strict";
 
@@ -203,10 +203,6 @@ function svgToKicadPcb(svgString, title)
                       -arcAngleDegrees, lineWidth);
     }
 
-    var translationX = parseFloat($('#translation-x').val());
-    var translationY = parseFloat($('#translation-y').val());
-    var layer = $('#layer').val();
-
     try {
         var svgDoc = $.parseXML(svgString);
     } catch (exception) {
@@ -236,7 +232,7 @@ function svgToKicadPcb(svgString, title)
         return null;
     }
 
-    var head = globals.kicadPcbToBeAppended ? globals.kicadPcbToBeAppended : kicadPcbHeaderTemplate.format(title);
+    var head = kicadPcbToBeAppended ? kicadPcbToBeAppended : kicadPcbHeaderTemplate.format(title);
     var body = kicadPcb.replace(/{layer}/g, layer);
     var tail = '\n)\n';
 
