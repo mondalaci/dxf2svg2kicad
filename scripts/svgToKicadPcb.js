@@ -15,7 +15,7 @@ function svgToKicadPcb(svgString, title)
 
     var lineWidth = 0.01;
 
-    var kicadPcbTemplate = '(kicad_pcb (version 3) (host pcbnew "{0}")\n\
+    var kicadPcbHeaderTemplate = '(kicad_pcb (version 3) (host pcbnew "{0}")\n\
 \n\
   (general\n\
     (links 0)\n\
@@ -114,9 +114,7 @@ function svgToKicadPcb(svgString, title)
     (uvia_drill 0.127)\n\
     (add_net "")\n\
   )\n\
-\n\
-{1}\n\
-)\n';
+\n';
 
     // Y coordinates are negated below because SVG increases upwards while KiCad increases downwards.
 
@@ -216,27 +214,31 @@ function svgToKicadPcb(svgString, title)
     }
 
     var svgDom = $(svgDoc);
-    var objects = '';
+    var kicadPcb = '';
 
     svgDom.find('line').each(function(index, line) {
-        objects += lineToKicadObject(line.x1.baseVal.value, line.y1.baseVal.value,
-                                     line.x2.baseVal.value, line.y2.baseVal.value);
+        kicadPcb += lineToKicadObject(line.x1.baseVal.value, line.y1.baseVal.value,
+                                      line.x2.baseVal.value, line.y2.baseVal.value);
     });
 
     svgDom.find('circle').each(function(index, circle) {
         var cx = circle.cx.baseVal.value + translationX;
         var cy = circle.cy.baseVal.value + translationY;
-        objects += '  (gr_circle (center {0} {1}) (end {2} {3}) (layer {layer}) (width {4}))\n'.
-                   format(cx, -cy, cx, -cy+circle.r.baseVal.value, lineWidth);
+        kicadPcb += '  (gr_circle (center {0} {1}) (end {2} {3}) (layer {layer}) (width {4}))\n'.
+                    format(cx, -cy, cx, -cy+circle.r.baseVal.value, lineWidth);
     });
 
     svgDom.find('path').each(function(index, path) {
-        objects += pathToKicadObject(path);
+        kicadPcb += pathToKicadObject(path);
     });
 
-    if (objects === '') {
+    if (kicadPcb === '') {
         return null;
     }
 
-    return kicadPcbTemplate.format(title, objects).replace(/{layer}/g, layer);
+    var head = globals.kicadPcbToBeAppended ? globals.kicadPcbToBeAppended : kicadPcbHeaderTemplate.format(title);
+    var body = kicadPcb.replace(/{layer}/g, layer);
+    var tail = '\n)\n';
+
+    return head + body + tail;
 }

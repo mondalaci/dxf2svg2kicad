@@ -6,6 +6,8 @@
     "jquery": "~2.0.3",
     "FileSaver.js": "git@github.com:eligrey/FileSaver.js.git",
     "modernizr": "~2.6.2",
-    "html5-boilerplate": "~4.2.0"
+    "html5-boilerplate": "~4.2.0",
+    "underscore.string": "~2.3.3",
+    "underscore": "~1.5.2"
   }
 }

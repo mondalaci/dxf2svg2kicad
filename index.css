@@ -27,20 +27,16 @@ a:visited {
     width: 850px;
 }
 
-#invalid-extension {
-    color: #f00;
-}
-
-#invalid-extension,
-#invalid-input,
 #kicad-pcb-save-link,
 #svg-and-kicad-pcb-save-links,
 #advanced-options,
-#report-help {
+#report-help,
+.invalid-input
+{
     display: none;
 }
 
-#invalid-input {
+.invalid-input {
     color: #f00;
 }
 
