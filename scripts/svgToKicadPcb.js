@@ -121,7 +121,7 @@ function svgToKicadPcb(svgString, title, layer, translationX, translationY, kica
     function lineToKicadObject(x1, y1, x2, y2)
     {
         return '  (gr_line (start {0} {1}) (end {2} {3}) (angle 90) (layer {layer}) (width {4}))\n'.
-                format(x1+translationX, -(y1+translationY), x2+translationX, -(y2+translationY), lineWidth);
+                format(x1+translationX, -y1+translationY, x2+translationX, -y2+translationY, lineWidth);
     }
 
     function pathToKicadObject(path)
@@ -198,8 +198,8 @@ function svgToKicadPcb(svgString, title, layer, translationX, translationY, kica
         };
 
         return '  (gr_arc (start {0} {1}) (end {2} {3}) (angle {4}) (layer {layer}) (width {5}))\n'.
-               format(centerPoint.x+translationX, -(centerPoint.y+translationY),
-                      move.x+translationX, -(move.y+translationY),
+               format(centerPoint.x+translationX, -centerPoint.y+translationY,
+                      move.x+translationX, -move.y+translationY,
                       -arcAngleDegrees, lineWidth);
     }
 
@@ -219,7 +219,7 @@ function svgToKicadPcb(svgString, title, layer, translationX, translationY, kica
 
     svgDom.find('circle').each(function(index, circle) {
         var cx = circle.cx.baseVal.value + translationX;
-        var cy = circle.cy.baseVal.value + translationY;
+        var cy = circle.cy.baseVal.value - translationY;
         kicadPcb += '  (gr_circle (center {0} {1}) (end {2} {3}) (layer {layer}) (width {4}))\n'.
                     format(cx, -cy, cx, -cy+circle.r.baseVal.value, lineWidth);
     });
