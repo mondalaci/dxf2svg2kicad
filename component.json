@@ -2,12 +2,12 @@
   "name": "dxf2svg2kicad",
   "version": "0.0.0",
   "dependencies": {
-    "positional-format.js": "latest",
-    "jquery": "~2.0.3",
+    "positional-format.js": "git://github.com/mondalaci/positional-format.js.git",
+    "jquery": "git://github.com/components/jquery.git#2.0.3",
     "FileSaver.js": "git@github.com:eligrey/FileSaver.js.git",
-    "modernizr": "~2.6.2",
-    "html5-boilerplate": "~4.2.0",
-    "underscore.string": "~2.3.3",
-    "underscore": "~1.5.2"
+    "modernizr": "git://github.com/Modernizr/Modernizr.git#2.6.2",
+    "html5-boilerplate": "git://github.com/h5bp/html5-boilerplate#4.2.0",
+    "underscore.string": "git://github.com/epeli/underscore.string.git#2.3.3",
+    "underscore": "git://github.com/jashkenas/underscore.git#1.5.2"
   }
 }
