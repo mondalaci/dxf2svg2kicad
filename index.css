@@ -27,6 +27,12 @@ a:visited {
     width: 850px;
 }
 
+#ad {
+    position: absolute;
+    left: 875px;
+    top: 0px;
+}
+
 #kicad-pcb-save-link,
 #svg-and-kicad-pcb-save-links,
 #advanced-options,
