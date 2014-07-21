@@ -23,7 +23,7 @@
         Please <a href="http://browsehappy.com/" target="_blank">upgrade your browser</a>!
     </p>
 
-    <ol>
+    <ol class="main-list">
         <li>Choose a DXF or SVG file to be converted &mdash;
             <input id="input-file-chooser" type="file"><br>
             <span id="invalid-extension" class="invalid-input">Invalid file chosen! &mdash;
@@ -33,9 +33,21 @@
         <li>
             Check the preview image.
             <div id="invalid-input-file" class="invalid-input">
-                The input file seems invalid!  If it's a DXF and you're sure it's valid then open it in a CAD application
-                like <a href="http://qcad.org/" target="_blank">QCAD</a>, select the whole drawing and use the EXPLODE
-                command, then save it as a new DXF.  Finally, open the exploded DXF in dxf2svg2kicad and it should work.
+                The input file seems invalid!  If you're sure it's is valid then
+                <ol id="dxf-help">
+                    <li>open it in a CAD application like <a href="http://qcad.org/" target="_blank">QCAD</a></li>
+                    <li>select the whole drawing</li>
+                    <li>use the EXPLODE command</li>
+                    <li>save it as a new DXF</li>
+                </ol>
+                <ol id="svg-help">
+                    <li>open it in Inkscape</li>
+                    <li>select the whole drawing</li>
+                    <li>in the node toolbar select "Break path at selected nodes" (Shift+B)</li>
+                    <li>use Path -> Break Apart (Shift+Ctrl+K)</li>
+                    <li>save the SVG as a new drawing</li>
+                </ol>
+                Finally, open the newly saved file in dxf2svg2kicad and it should work.
               </div>
             <div id="svg-image-container"></div>
         </li>

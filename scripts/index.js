@@ -36,13 +36,13 @@ $(document).ready(function() {
             switch (fileExtension) {
                 case 'dxf':
                     svgString = dxfToSvg(fileData);
-                    $('#svg-and-kicad-pcb-save-links').show();
-                    $('#invalid-extension').hide();
+                    $('#svg-and-kicad-pcb-save-links, #dxf-help').show();
+                    $('#invalid-extension, #svg-help').hide();
                     break;
                 case 'svg':
                     svgString = fileData;
-                    $('#kicad-pcb-save-link').show();
-                    $('#invalid-extension').hide();
+                    $('#kicad-pcb-save-link, #svg-help').show();
+                    $('#invalid-extension, #dxf-help').hide();
                     break;
                 default:
                     $('#no-save-link').show();

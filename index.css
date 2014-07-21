@@ -30,7 +30,7 @@ a:visited {
 #ad {
     position: absolute;
     left: 875px;
-    top: 0px;
+    top: 0;
 }
 
 #kicad-pcb-save-link,
@@ -63,13 +63,13 @@ a:visited {
 
 /* The styles below were borrowed from http://www.456bereastreet.com/archive/201105/styling_ordered_list_numbers/ */
 
-ol {
+ol.main-list {
     counter-reset:li; /* Initiate a counter */
     margin-left:0; /* Remove the default left margin */
     padding-left:0; /* Remove the default left padding */
 }
 
-ol > li {
+ol.main-list > li {
     position:relative; /* Create a positioning context */
     margin:0 0 6px 2em; /* Give each list item a left margin to make room for the numbers */
     padding:4px 8px; /* Add some spacing around the content */
@@ -77,7 +77,7 @@ ol > li {
     border-top:2px solid #666;
 }
 
-ol > li:before {
+ol.main-list > li:before {
     content:counter(li); /* Use the counter as content */
     counter-increment:li; /* Increment the counter by 1 */
     /* Position and style the number */
