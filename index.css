@@ -46,7 +46,8 @@ a:visited {
     color: #f00;
 }
 
-.upgrade-browser-notification {
+.upgrade-browser-notification,
+.firefox-notification {
     background-color: #f88;
     padding: 10px;
     display: none;

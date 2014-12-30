@@ -22,6 +22,11 @@ $(document).ready(function() {
         $('#missing-features').html(missingFeatures);
     }
 
+    var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+    if (isFirefox) {
+        $('.firefox-notification').show();
+    }
+
     $('#input-file-chooser').change(function() {
         var file = this.files[0];
         filename = file.name;
