@@ -63,10 +63,11 @@ $(document).ready(function() {
             }
 
             var dataUri = 'data:image/svg+xml;utf8,' + encodeURIComponent(svgString);
-            var svgImage = $('<img>', {'id':'svg-image', src:dataUri});
+            var svgImage = $('<img>', {id:'svg-image', src:dataUri});
             $('#svg-image-container').append(svgImage);
 
             kicadPcb = svgToKicadPcbGetter(svgString);
+            console.log(kicadPcb);
             checkConvertedInputString(kicadPcb);
         })[0].readAsText(file);
     });

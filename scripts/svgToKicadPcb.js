@@ -121,7 +121,7 @@ function svgToKicadPcb(svgString, title, layer, translationX, translationY, kica
     function lineToKicadObject(x1, y1, x2, y2)
     {
         return '  (gr_line (start {0} {1}) (end {2} {3}) (angle 90) (layer {layer}) (width {4}))\n'.
-                format(x1+translationX, -y1+translationY, x2+translationX, -y2+translationY, lineWidth);
+                format(translationX+x1, translationY-y1, translationX+x2, -translationY-y2, lineWidth);
     }
 
     function pathToKicadObject(path)
