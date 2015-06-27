@@ -47,9 +47,15 @@
                 </ol>
                 <ol id="svg-help">
                     <li>Open it in Inkscape.</li>
-                    <li>Select the whole drawing.</li>
+                    <li>Uncheck the "File -> Inkscape Preferences... -> SVG output -> Path data -> Allow relative coordinates" checkbox.</li>
+                    <li>Select the "Edit paths by nodes" tool (F2).</li>
+                    <li>Select the whole drawing (Ctrl+A).</li>
+                    <li>Reselect the whole drawing, thereby highlighting the individual nodes (Ctrl+A).</li>
                     <li>In the node toolbar select "Break path at selected nodes" (Shift+B).</li>
-                    <li>Use Path -> Break Apart (Shift+Ctrl+K).</li>
+                    <li>Use the "Path -> Break Apart" command (Shift+Ctrl+K).</li>
+                    <li>Deselect, select and reselect nodes (Esc, Ctrl+A, Ctrl+A).</li>
+                    <li>In the node toolbar select "Make selected segment lines" (Shift+L).</li>
+                    <li>Set the stroke color to black so that you can see the final image (Shift + Left-click on the black color of the palette).</li>
                     <li>Save the SVG as a new drawing.</li>
                 </ol>
                 Finally, open the newly saved file in dxf2svg2kicad and it should work.
