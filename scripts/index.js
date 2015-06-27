@@ -141,7 +141,7 @@ $(document).ready(function() {
 
         var layer = $('#layer').val();
 
-        return svgToKicadPcb(svgString, filename, layer, translationX, translationY, kicadPcbToBeAppended);
+        return svgToKicadPcb(svgString, filename, layer, translationX, translationY, kicadPcbToBeAppended, fileExtension === 'dxf');
     }
 
     function checkConvertedInputString(inputString)

@@ -9,11 +9,12 @@
  * @param {string} title The title of the PCB.
  * @returns {string|null} The converted KICAD_PCB format or null if the conversion was unsuccessful.
  */
-function svgToKicadPcb(svgString, title, layer, translationX, translationY, kicadPcbToBeAppended)
+function svgToKicadPcb(svgString, title, layer, translationX, translationY, kicadPcbToBeAppended, yAxisInverted)
 {
     "use strict";
 
     var lineWidth = 0.01;
+    var yAxisMultiplier = yAxisInverted ? -1 : 1;
 
     var kicadPcbHeaderTemplate = '(kicad_pcb (version 3) (host pcbnew "{0}")\n\
 \n\
@@ -121,7 +122,9 @@ function svgToKicadPcb(svgString, title, layer, translationX, translationY, kica
     function lineToKicadObject(x1, y1, x2, y2)
     {
         return '  (gr_line (start {0} {1}) (end {2} {3}) (angle 90) (layer {layer}) (width {4}))\n'.
-                format(translationX+x1, translationY-y1, translationX+x2, -translationY-y2, lineWidth);
+                format(translationX+x1, yAxisMultiplier*y1 + translationY,
+                       translationX+x2, yAxisMultiplier*y2 - translationY,
+                       lineWidth);
     }
 
     function pathToKicadObject(path)
@@ -205,8 +208,8 @@ function svgToKicadPcb(svgString, title, layer, translationX, translationY, kica
         };
 
         return '  (gr_arc (start {0} {1}) (end {2} {3}) (angle {4}) (layer {layer}) (width {5}))\n'.
-               format(centerPoint.x+translationX, -centerPoint.y+translationY,
-                      move.x+translationX, -move.y+translationY,
+               format(centerPoint.x + translationX, yAxisMultiplier*centerPoint.y + translationY,
+                      move.x        + translationX, yAxisMultiplier*move.y        + translationY,
                       -arcAngleDegrees, lineWidth);
     }
 
