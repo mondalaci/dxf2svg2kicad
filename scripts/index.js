@@ -67,7 +67,6 @@ $(document).ready(function() {
             $('#svg-image-container').append(svgImage);
 
             kicadPcb = svgToKicadPcbGetter(svgString);
-            console.log(kicadPcb);
             checkConvertedInputString(kicadPcb);
         })[0].readAsText(file);
     });
