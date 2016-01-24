@@ -41,23 +41,22 @@ $(document).ready(function() {
             switch (fileExtension) {
                 case 'dxf':
                     svgString = dxfToSvg(fileData);
-                    $('#svg-and-kicad-pcb-save-links, #dxf-help').show();
-                    $('#invalid-extension, #svg-help').hide();
+                    $('#svg-and-kicad-pcb-save-links, #segmentation-notification, #dxf-segmentation-notification').show();
+                    $('#svg-segmentation-notification, .invalid-input').hide();
                     break;
                 case 'svg':
                     svgString = fileData;
-                    $('#kicad-pcb-save-link, #svg-help').show();
-                    $('#invalid-extension, #dxf-help').hide();
+                    $('#kicad-pcb-save-link, #svg-segmentation-notification, #segmentation-notification').show();
+                    $('#dxf-segmentation-notification, .invalid-input').hide();
                     break;
                 default:
-                    $('#no-save-link').show();
-                    $('#invalid-extension').show();
+                    $('#no-save-link, .invalid-input').show();
+                    $('#segmentation-notification').hide();
                     return;
             }
 
             $('#svg-image').remove();
 
-            checkConvertedInputString(svgString);
             if (svgString === null) {
                 return;
             }
@@ -65,9 +64,7 @@ $(document).ready(function() {
             var dataUri = 'data:image/svg+xml;utf8,' + encodeURIComponent(svgString);
             var svgImage = $('<img>', {id:'svg-image', src:dataUri});
             $('#svg-image-container').append(svgImage);
-
             kicadPcb = svgToKicadPcbGetter(svgString);
-            checkConvertedInputString(kicadPcb);
         })[0].readAsText(file);
     });
 
@@ -142,15 +139,6 @@ $(document).ready(function() {
         var layer = $('#layer').val();
 
         return svgToKicadPcb(svgString, filename, layer, translationX, translationY, kicadPcbToBeAppended, fileExtension === 'dxf');
-    }
-
-    function checkConvertedInputString(inputString)
-    {
-        if (inputString === null) {
-            $('#invalid-input-file').show();
-        } else {
-            $('#invalid-input-file').hide();
-        }
     }
 
     function saveStringAsFile(string, filename)

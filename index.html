@@ -37,17 +37,25 @@
             <a href="tests/test.svg">test.svg</a> for testing purposes.)</li>
         <li>
             Check the preview image.
-            <div id="invalid-input-file" class="invalid-input">
-                The input file seems invalid!  If you're sure it's is valid then
-                <ol id="dxf-help">
+            <div id="segmentation-notification">
+                If the preview image below seems incomplete then
+                <ol id="dxf-segmentation-notification">
                     <li>Open it in a CAD application like <a href="http://qcad.org/" target="_blank">QCAD</a>.</li>
                     <li>Select the whole drawing.</li>
                     <li>Ese the EXPLODE command.</li>
                     <li>Save it as a new DXF.</li>
                 </ol>
-                <ol id="svg-help">
+                <ol id="svg-segmentation-notification">
                     <li>Open it in Inkscape.</li>
-                    <li>Uncheck the "File -> Inkscape Preferences... -> SVG output -> Path data -> Allow relative coordinates" checkbox.</li>
+                    <li>
+                        Set path string format to absolute:
+                        <ul>
+                            <li>For older versions of Inkscape, uncheck the "File -> Inkscape Preferences... ->
+                                SVG output -> Path data -> Allow relative coordinates" checkbox.</li>
+                            <li>For newer versions of Inkscape, set the "Edit -> Preferences... -> Input/Output ->
+                                SVG output -> Path data -> Path string format" option to "Absolute".</li>
+                        </ul>
+                    </li>
                     <li>Select the "Edit paths by nodes" tool (F2).</li>
                     <li>Select the whole drawing (Ctrl+A).</li>
                     <li>Reselect the whole drawing, thereby highlighting the individual nodes (Ctrl+A).</li>
@@ -55,7 +63,8 @@
                     <li>Use the "Path -> Break Apart" command (Shift+Ctrl+K).</li>
                     <li>Deselect, select and reselect nodes (Esc, Ctrl+A, Ctrl+A).</li>
                     <li>In the node toolbar select "Make selected segment lines" (Shift+L).</li>
-                    <li>Set the stroke color to black so that you can see the final image (Shift + Left-click on the black color of the palette).</li>
+                    <li>Set the stroke color to black so that you can see the final image
+                        (Shift + Left-click on the black color of the palette).</li>
                     <li>Save the SVG as a new drawing.</li>
                 </ol>
                 Finally, open the newly saved file in dxf2svg2kicad and it should work.

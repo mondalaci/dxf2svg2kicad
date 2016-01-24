@@ -37,6 +37,7 @@ a:visited {
 #svg-and-kicad-pcb-save-links,
 #advanced-options,
 #report-help,
+#segmentation-notification,
 .invalid-input
 {
     display: none;
@@ -44,6 +45,12 @@ a:visited {
 
 .invalid-input {
     color: #f00;
+}
+
+#segmentation-notification {
+    border-left: 8px solid #aaa;
+    padding-left: 5px;
+    margin: 10px 0;
 }
 
 .upgrade-browser-notification,
