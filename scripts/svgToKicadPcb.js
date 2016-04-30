@@ -123,7 +123,7 @@ function svgToKicadPcb(svgString, title, layer, translationX, translationY, kica
     {
         return '  (gr_line (start {0} {1}) (end {2} {3}) (angle 90) (layer {layer}) (width {4}))\n'.
                 format(translationX+x1, yAxisMultiplier*y1 + translationY,
-                       translationX+x2, yAxisMultiplier*y2 - translationY,
+                       translationX+x2, yAxisMultiplier*y2 + translationY,
                        lineWidth);
     }
 
