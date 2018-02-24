@@ -79,7 +79,7 @@ function dxfToSvg(dxfString)
         21: 'y1',
         40: 'r',
         50: 'a0',
-        51: 'a1'
+        51: 'a1',
         71: 'degree',
         72: 'numOfKnots',
         73: 'numOfControlPoints',
