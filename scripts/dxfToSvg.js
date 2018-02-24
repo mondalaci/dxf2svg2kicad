@@ -133,7 +133,7 @@ function dxfToSvg(dxfString)
                       }
                       object.knots.push(object.r);
                     }
-                    if (object.type == 'LWPOLYLINE' && groupCode === 'y') {
+                    if ((object.type == 'LWPOLYLINE' || object.type =='SPLINE') && groupCode === 'y') {
                         if (!object.vertices) {
                             object.vertices = [];
                         }
