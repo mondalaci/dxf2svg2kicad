@@ -51,6 +51,22 @@ function dxfToSvg(dxfString)
                     svgSnippet += getLineSvg(vertice1.x, vertice1.y, vertice2.x, vertice2.y);
                 }
                 return svgSnippet;
+            case 'SPLINE':
+                var svgSnippet = '';
+                var controlPoints = dxfObject.vertices.map((value)=>{return [value.x, value.y]});
+                var numOfKnots = dxfObject.numOfKnots;
+                var knots = dxfObject.knots;
+                var degree = dxfObject.degree;
+                var vertices = [];
+                for(let t=0;t<=100;t=(t+1)|0){
+                  vertices.push(interpolate(t/100, degree, controlPoints, knots));
+                } 
+                for (var i=0; i<vertices.length-1; i++) {
+                  var vertice1 = vertices[i];
+                  var vertice2 = vertices[i+1];
+                  svgSnippet += getLineSvg(vertice1[0], vertice1[1], vertice2[0], vertice2[1]);
+                }
+                return svgSnippet;
         }
     }
 
@@ -64,13 +80,18 @@ function dxfToSvg(dxfString)
         40: 'r',
         50: 'a0',
         51: 'a1'
+        71: 'degree',
+        72: 'numOfKnots',
+        73: 'numOfControlPoints',
+        74: 'numOfFitPoints',
     };
 
     var supportedEntities = [
         'LINE',
         'CIRCLE',
         'ARC',
-        'LWPOLYLINE'
+        'LWPOLYLINE',
+        'SPLINE'
     ];
 
     var counter = 0;
@@ -106,7 +127,12 @@ function dxfToSvg(dxfString)
                     }
                 } else if (object.type && typeof groupCode !== 'undefined') {  // Known entity property recognized.
                     object[groupCode] = parseFloat(value);
-
+                    if ( object.type == 'SPLINE'  && groupCode === 'r') {
+                      if(!object.knots){
+                        object.knots =[]
+                      }
+                      object.knots.push(object.r);
+                    }
                     if (object.type == 'LWPOLYLINE' && groupCode === 'y') {
                         if (!object.vertices) {
                             object.vertices = [];
