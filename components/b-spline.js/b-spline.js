@@ -79,6 +79,3 @@ function interpolate(t, degree, points, knots, weights, result) {
   return result;
 }
 
-
-//module.exports = interpolate;
-export default interpolate;
