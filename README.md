@@ -1,3 +1,5 @@
+> Please note that I do not have time to develop this project anymore. If you send me PRs, I'll review and merge them. If you want to take over this project, let me know, and I'll give you write access, but only after you proved yourself. Feel free to open issues, but I won't be the one to address them.
+
 DXF to SVG to KICAD_PCB converter
 =================================
 
