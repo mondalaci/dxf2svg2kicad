@@ -53,14 +53,14 @@ function dxfToSvg(dxfString)
                 return svgSnippet;
             case 'SPLINE':
                 var svgSnippet = '';
-                var controlPoints = dxfObject.vertices.map((value)=>{return [value.x, value.y]});
+                var controlPoints = dxfObject.vertices.map(function (value) {return [value.x, value.y]});
                 var numOfKnots = dxfObject.numOfKnots;
                 var knots = dxfObject.knots;
                 var degree = dxfObject.degree;
                 var vertices = [];
                 for(let t=0;t<=100;t=(t+1)|0){
                   vertices.push(interpolate(t/100, degree, controlPoints, knots));
-                } 
+                }
                 for (var i=0; i<vertices.length-1; i++) {
                   var vertice1 = vertices[i];
                   var vertice2 = vertices[i+1];
