@@ -57,7 +57,7 @@ function dxfToSvg(dxfString)
                 var knots = dxfObject.knots;
                 var degree = dxfObject.degree;
                 var vertices = [];
-                for(let t=0;t<=100;t=(t+1)|0){
+                for(var t=0;t<=100;t=(t+1)|0){
                   vertices.push(interpolate(t/100, degree, controlPoints, knots));
                 }
                 for (var i=0; i<vertices.length-1; i++) {
