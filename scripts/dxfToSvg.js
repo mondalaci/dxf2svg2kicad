@@ -57,7 +57,7 @@ function dxfToSvg(dxfString)
                 var knots = dxfObject.knots;
                 var degree = dxfObject.degree;
                 var vertices = [];
-                for(var t=0;t<=100;t=(t+1)|0){
+                for (var t=0; t<=100; t++){
                   vertices.push(interpolate(t/100, degree, controlPoints, knots));
                 }
                 for (var i=0; i<vertices.length-1; i++) {
@@ -126,9 +126,9 @@ function dxfToSvg(dxfString)
                     }
                 } else if (object.type && typeof groupCode !== 'undefined') {  // Known entity property recognized.
                     object[groupCode] = parseFloat(value);
-                    if ( object.type == 'SPLINE'  && groupCode === 'r') {
-                      if(!object.knots){
-                        object.knots =[]
+                    if (object.type == 'SPLINE' && groupCode === 'r') {
+                      if (!object.knots) {
+                        object.knots = [];
                       }
                       object.knots.push(object.r);
                     }
