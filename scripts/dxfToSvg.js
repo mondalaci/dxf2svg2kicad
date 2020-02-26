@@ -54,7 +54,6 @@ function dxfToSvg(dxfString)
             case 'SPLINE':
                 var svgSnippet = '';
                 var controlPoints = dxfObject.vertices.map(function (value) {return [value.x, value.y]});
-                var numOfKnots = dxfObject.numOfKnots;
                 var knots = dxfObject.knots;
                 var degree = dxfObject.degree;
                 var vertices = [];
